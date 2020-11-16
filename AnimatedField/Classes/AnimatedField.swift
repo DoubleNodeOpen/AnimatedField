@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftMaskTextfield
 
 extension UIToolbar {
 	
@@ -25,7 +26,7 @@ extension UIToolbar {
 
 open class AnimatedField: UIView {
     
-    @IBOutlet weak private var textField: UITextField!
+    @IBOutlet weak private var textField: SwiftMaskTextfield!
     @IBOutlet weak private var textFieldRightConstraint: NSLayoutConstraint!
     @IBOutlet weak private var titleLabel: UILabel!
     @IBOutlet weak private var alertLabel: UILabel!
@@ -135,14 +136,19 @@ open class AnimatedField: UIView {
             }
         }
     }
-	
+
+    public var isEnabled: Bool = true {
+        didSet {
+            textField.isEnabled = isEnabled
+        }
+    }
 	public var keyboardAppearance: UIKeyboardAppearance = .default {
 		didSet {
 			textField.keyboardAppearance = keyboardAppearance
 			textView.keyboardAppearance = keyboardAppearance
 		}
 	}
-    
+
     /// Uppercased field format
     public var uppercased = false
     

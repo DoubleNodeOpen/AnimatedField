@@ -46,5 +46,7 @@ s.source_files      = 'AnimatedField/**/*'
 # ――― Swift Version ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
 s.swift_version     = '5.0'
-    
+
+s.dependency "SwiftMaskTextfield"
+
 end
