@@ -137,6 +137,11 @@ open class AnimatedField: UIView {
         }
     }
 
+    public var formatPattern: String = "" {
+        didSet {
+            textField.formatPattern = formatPattern
+        }
+    }
     public var isEnabled: Bool = true {
         didSet {
             textField.isEnabled = isEnabled
@@ -223,8 +228,10 @@ open class AnimatedField: UIView {
             titleLabel.textColor = format.titleColor
             textField.font = format.textFont
             textField.textColor = format.textColor
+            textField.tintColor = format.textColor
             textView.font = format.textFont
             textView.textColor = format.textColor
+            textView.tintColor = format.textColor
             lineView.backgroundColor = format.lineColor
             eyeButton.tintColor = format.textColor
             counterLabel.isHidden = !format.counterEnabled
@@ -291,7 +298,7 @@ open class AnimatedField: UIView {
     
     private func setupTextView() {
         textView.delegate = self
-        // textView.textColor = format.textColor
+        textView.textColor = format.textColor
         textView.tag = tag
         textView.textContainerInset = .zero
         textView.contentInset = UIEdgeInsets(top: 3, left: -5, bottom: 6, right: 0)
@@ -461,7 +468,7 @@ extension AnimatedField {
     func updateCounterLabel() {
         let count = textView.text == attributedPlaceholder?.string && textView.textColor == UIColor.lightGray.withAlphaComponent(0.8) ? (textView.text.count - (attributedPlaceholder?.string.count ?? 0)) : textView.text.count
         let value = (dataSource?.animatedFieldLimit(self) ?? 0) - count
-        counterLabel.text = format.countDown ? "\(value)" : "\((textField.text?.count ?? 0) + 1)/\(dataSource?.animatedFieldLimit(self) ?? 0)"
+        counterLabel.text = format.countDown ? "\(value)" : "\((textView.text?.count ?? 0) + 1)/\(dataSource?.animatedFieldLimit(self) ?? 0)"
         if format.counterAnimation {
             counterLabel.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
             UIView.animate(withDuration: 0.3) { [weak self] in
@@ -483,14 +490,17 @@ extension AnimatedField {
         if textView.text == "" {
             textView.text = placeholder
             textView.textColor = UIColor.lightGray.withAlphaComponent(0.8)
+        } else {
+            textView.textColor = format.textColor
         }
     }
     
     func beginTextViewPlaceholder() {
-        if textView.text == placeholder && textView.textColor == UIColor.lightGray.withAlphaComponent(0.8) {
+        if textView.text == placeholder &&
+            textView.textColor == UIColor.lightGray.withAlphaComponent(0.8) {
             textView.text = ""
-            textView.textColor = format.textColor
         }
+        textView.textColor = format.textColor
     }
     
     func highlightField(_ highlight: Bool) {
