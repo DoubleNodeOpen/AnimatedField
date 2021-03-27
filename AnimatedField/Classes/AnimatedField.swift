@@ -27,6 +27,7 @@ extension UIToolbar {
 open class AnimatedField: UIView {
     
     @IBOutlet weak private var textField: SwiftMaskTextfield!
+    @IBOutlet weak private var textFieldHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak private var textFieldRightConstraint: NSLayoutConstraint!
     @IBOutlet weak private var titleLabel: UILabel!
     @IBOutlet weak private var alertLabel: UILabel!
@@ -229,6 +230,7 @@ open class AnimatedField: UIView {
             textField.font = format.textFont
             textField.textColor = format.textColor
             textField.tintColor = format.textColor
+            textFieldHeightConstraint.constant = format.textFieldHeight
             textView.font = format.textFont
             textView.textColor = format.textColor
             textView.tintColor = format.textColor
@@ -239,6 +241,7 @@ open class AnimatedField: UIView {
             counterLabel.textColor = format.counterColor
             alertLabel.font = format.alertFont
             alertLabelBottomConstraint.isActive = format.alertPosition == .top
+            layoutIfNeeded()
         }
     }
     
@@ -288,7 +291,8 @@ open class AnimatedField: UIView {
         textField.textColor = format.textColor
         textField.tag = tag
         textField.backgroundColor = .clear
-		isPlaceholderVisible = !format.titleAlwaysVisible
+        textFieldHeightConstraint.constant = format.textFieldHeight
+        isPlaceholderVisible = !format.titleAlwaysVisible
     }
     
     private func setupTitle() {
@@ -424,8 +428,8 @@ extension AnimatedField {
     
     func animateIn() {
         isPlaceholderVisible = false
-        titleLabelTextViewConstraint?.constant = 1
-        titleLabelTextFieldConstraint?.constant = 1
+        titleLabelTextViewConstraint?.constant = -4
+        titleLabelTextFieldConstraint?.constant = -4
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.titleLabel.alpha = 1.0
             self?.layoutIfNeeded()

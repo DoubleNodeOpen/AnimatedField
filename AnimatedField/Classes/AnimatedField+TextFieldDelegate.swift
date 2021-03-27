@@ -65,8 +65,24 @@ extension AnimatedField: UITextFieldDelegate {
             }
         }
         
-        if newInput == "" { return true }
-        
+        var newText = textField.text!
+        newText.replaceSubrange(Range(range, in: textField.text!)!,
+                                with: string)
+        if newText.isEmpty {
+            if !isPlaceholderVisible {
+                animateOut()
+            }
+            return true
+        } else {
+            if isPlaceholderVisible {
+                animateIn()
+                
+            }
+        }
+        if newInput.isEmpty {
+            return true
+        }
+
         // Check limits
         return textField.text?.count ?? 0 + newInput.count < limit
     }
