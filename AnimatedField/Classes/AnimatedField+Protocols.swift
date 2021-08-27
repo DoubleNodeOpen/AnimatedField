@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AnimatedFieldDataSource: class {
+public protocol AnimatedFieldDataSource: AnyObject {
     
     /**
      ------------------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ public extension AnimatedFieldDataSource {
     }
 }
 
-public protocol AnimatedFieldDelegate: class {
+public protocol AnimatedFieldDelegate: AnyObject {
     
     /**
      ------------------------------------------------------------------------------------------

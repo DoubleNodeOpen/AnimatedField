@@ -39,7 +39,7 @@ public enum AnimatedFieldType {
     var validationExpression: String {
         switch self {
         case .email: return "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        case .text(let _, let min, let max): return ".{\(min),\(max)}"
+        case .text(_, let min, let max): return ".{\(min),\(max)}"
         case .username(let min, let max): return "[A-Za-z0-9_.]{\(min),\(max)}"
         case .password(let min, let max): return ".{\(min),\(max)}"
         case .price(_, let max): return "^(?=.*[1-9])([1-9]\\d*(?:\(decimal)\\d{1,\(max)})?|(?:0\(decimal)\\d{1,\(max)}))$"
@@ -51,7 +51,7 @@ public enum AnimatedFieldType {
     var validationError: String {
         switch self {
         case .email: return "Email is not valid!"
-        case .text(let fieldName, let _, let _): return "\(fieldName) is not valid!"
+        case .text(let fieldName, _, _): return "\(fieldName) is not valid!"
         case .username: return "Username is not valid!"
         case .password: return "Password is not valid!"
         case .price: return "Price is not valid!"
