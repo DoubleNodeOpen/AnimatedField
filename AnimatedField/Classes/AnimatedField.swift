@@ -251,10 +251,10 @@ open class AnimatedField: UIView {
         }
         set {
             if !textField.isHidden {
-                let range = NSRange(location: 0, length: newValue.count)
+                let range = NSRange(location: 0, length: newValue?.count ?? 0)
                 let should = textField(textField,
                                        shouldChangeCharactersIn: range,
-                                       replacementString: newValue)
+                                       replacementString: newValue ?? "")
                 if should {
                     textField.text = newValue
                 }
@@ -262,10 +262,10 @@ open class AnimatedField: UIView {
                 textField.text = nil
             }
             if !textView.isHidden {
-                let range = NSRange(location: 0, length: newValue.count)
+                let range = NSRange(location: 0, length: newValue?.count ?? 0)
                 let should = textView(textView,
                                       shouldChangeTextIn: range,
-                                      replacementText: newValue)
+                                      replacementText: newValue ?? "")
                 if should {
                     textView.text = newValue
                 }
@@ -534,7 +534,6 @@ extension AnimatedField {
     }
     
     func validateText(_ text: String?) -> String? {
-        
         let validationExpression = type.validationExpression
         let regex = dataSource?.animatedFieldValidationMatches(self) ?? validationExpression
         if let text = text, text != "", !text.isValidWithRegEx(regex) {

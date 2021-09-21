@@ -66,8 +66,12 @@ extension AnimatedField: UITextFieldDelegate {
         }
         
         var newText = textField.text!
-        newText.replaceSubrange(Range(range, in: textField.text!)!,
-                                with: string)
+        let range = Range(range, in: textField.text!)
+        if range != nil {
+            newText.replaceSubrange(range!, with: string)
+        } else if newText.isEmpty {
+            newText = string
+        }
         if newText.isEmpty {
             if !isPlaceholderVisible {
                 animateOut()
@@ -76,7 +80,6 @@ extension AnimatedField: UITextFieldDelegate {
         } else {
             if isPlaceholderVisible {
                 animateIn()
-                
             }
         }
         if newInput.isEmpty {
