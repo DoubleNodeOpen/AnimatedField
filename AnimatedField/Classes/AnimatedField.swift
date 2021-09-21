@@ -250,8 +250,28 @@ open class AnimatedField: UIView {
             return textField.isHidden ? (textView.text == placeholder && textView.textColor == UIColor.lightGray.withAlphaComponent(0.8) ? "" : textView.text) : textField.text
         }
         set {
-            textField.text = textField.isHidden ? nil : newValue
-            textView.text = textView.isHidden ? "" : newValue
+            if !textField.isHidden {
+                let range = NSRange(location: 0, length: newValue.count)
+                let should = textField(textField,
+                                       shouldChangeCharactersIn: range,
+                                       replacementString: newValue)
+                if should {
+                    textField.text = newValue
+                }
+            } else {
+                textField.text = nil
+            }
+            if !textView.isHidden {
+                let range = NSRange(location: 0, length: newValue.count)
+                let should = textView(textView,
+                                      shouldChangeTextIn: range,
+                                      replacementText: newValue)
+                if should {
+                    textView.text = newValue
+                }
+            } else {
+                textView.text = ""
+            }
         }
     }
     
