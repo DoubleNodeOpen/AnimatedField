@@ -484,7 +484,9 @@ extension AnimatedField {
     func animateOutAlert() {
         alertLabel.text = ""
         UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.titleLabel.alpha = 1.0
+            if (self?.format.titleAlwaysVisible ?? true) {
+                self?.titleLabel.alpha = 1.0
+            }
             self?.alertLabel.alpha = 0.0
         }
     }
