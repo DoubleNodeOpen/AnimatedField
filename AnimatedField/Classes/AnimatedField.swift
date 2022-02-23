@@ -47,13 +47,18 @@ open class AnimatedField: UIView {
     private var initialDate: Date?
     private var dateFormat: String?
     
-    /// Picker values
+    /// Number Picker values
     private var numberPicker: UIPickerView?
     var numberOptions = [Int]()
     private var initialNumber: Int?
     private var minNumber: Int = 0
     private var maxNumber: Int = 1
 
+    /// String Picker values
+    private var stringPicker: UIPickerView?
+    var stringOptions = [String]()
+    private var initialString: String?
+    
     var formatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.locale = Locale.current // USA: Locale(identifier: "en_US")
@@ -124,6 +129,10 @@ open class AnimatedField: UIView {
                 self.minNumber = minNumber
                 self.maxNumber = maxNumber
                 setupNumberPicker(defaultNumber: defaultNumber, minNumber: minNumber, maxNumber: maxNumber, chooseText: chooseText)
+            }
+            if case let AnimatedFieldType.stringpicker(defaultString, stringOptions, chooseText) = type {
+                self.initialString = defaultString
+                setupStringPicker(defaultString: defaultString, stringOptions: stringOptions, chooseText: chooseText)
             }
             if case AnimatedFieldType.price = type {
                 keyboardType = .decimalPad
@@ -411,6 +420,24 @@ open class AnimatedField: UIView {
         textField.inputView = numberPicker
     }
 
+    private func setupStringPicker(defaultString: String, stringOptions: [String], chooseText: String?) {
+        
+        stringPicker = UIPickerView()
+        stringPicker?.dataSource = self
+        stringPicker?.delegate = self
+        stringPicker?.setValue(format.textColor, forKey: "textColor")
+        
+        self.stringOptions = stringOptions
+        if let index = stringOptions.firstIndex(where: {$0 == defaultString}) {
+            stringPicker?.selectRow(index, inComponent:0, animated:false)
+        }
+        
+        let toolBar = UIToolbar(target: self, selector: #selector(didChooseStringPicker))
+        
+        textField.inputAccessoryView = accessoryView ?? toolBar
+        textField.inputView = stringPicker
+    }
+    
     open override var isFirstResponder: Bool {
         get {
             return textField.isFirstResponder
@@ -447,6 +474,17 @@ open class AnimatedField: UIView {
         if index < numberOptions.count {
             let value = numberOptions[index]
             textField.text = "\(value)"
+        } else {
+            textField.text = placeholder
+        }
+        _ = resignFirstResponder()
+    }
+
+    @objc func didChooseStringPicker() {
+        let index = stringPicker?.selectedRow(inComponent: 0) ?? 0
+        if index < stringOptions.count {
+            let value = stringOptions[index]
+            textField.text = value
         } else {
             textField.text = placeholder
         }
