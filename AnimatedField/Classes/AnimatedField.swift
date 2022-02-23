@@ -50,7 +50,10 @@ open class AnimatedField: UIView {
     /// Picker values
     private var numberPicker: UIPickerView?
     var numberOptions = [Int]()
-    
+    private var initialNumber: Int?
+    private var minNumber: Int
+    private var maxNumber: Int
+
     var formatter: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.locale = Locale.current // USA: Locale(identifier: "en_US")
@@ -117,7 +120,10 @@ open class AnimatedField: UIView {
                 setupDatePicker(mode: mode, minDate: minDate, maxDate: maxDate, chooseText: chooseText)
             }
             if case let AnimatedFieldType.numberpicker(defaultNumber, minNumber, maxNumber, chooseText) = type {
-                setupPicker(defaultNumber: defaultNumber, minNumber: minNumber, maxNumber: maxNumber, chooseText: chooseText)
+                initialNumber = defaultNumber
+                minNumber = minNumber
+                maxNumber = maxNumber
+                setupNumberPicker(defaultNumber: defaultNumber, minNumber: minNumber, maxNumber: maxNumber, chooseText: chooseText)
             }
             if case AnimatedFieldType.price = type {
                 keyboardType = .decimalPad
@@ -387,7 +393,7 @@ open class AnimatedField: UIView {
         textField.inputView = datePicker
     }
     
-    private func setupPicker(defaultNumber: Int, minNumber: Int, maxNumber: Int, chooseText: String?) {
+    private func setupNumberPicker(defaultNumber: Int, minNumber: Int, maxNumber: Int, chooseText: String?) {
         
         numberPicker = UIPickerView()
         numberPicker?.dataSource = self
@@ -437,7 +443,9 @@ open class AnimatedField: UIView {
     }
     
     @objc func didChooseNumberPicker() {
-//        textField.text = numberPicker
+        let index = numberPicker?.selectedRow(inComponent: 0)
+        let value = numberOptions[index]
+        textField.text = "\(value)"
         _ = resignFirstResponder()
     }
 }
