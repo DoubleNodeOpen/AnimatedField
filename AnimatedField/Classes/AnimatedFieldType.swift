@@ -16,7 +16,7 @@ public enum AnimatedFieldType {
     case username(Int, Int) // min, max
     case password(Int, Int) // min, max
     case price(Double, Int) // max price, max decimals
-    case url(String) // field name
+    case url(String, Int) // field name, min length
     case datepicker(UIDatePicker.Mode?, Date?, Date?, Date?, String?, String?) // mode, default date, min date, max date, choose text, date format
     case numberpicker(Int, Int, Int, String?) // default number, min number, max number, choose text
     case stringpicker(String, [String], String?) // default string, stringOptions, choose text
@@ -44,7 +44,8 @@ public enum AnimatedFieldType {
         case .username(let min, let max): return "[A-Za-z0-9_.]{\(min),\(max)}"
         case .password(let min, let max): return ".{\(min),\(max)}"
         case .price(_, let max): return "^(?=.*[1-9])([1-9]\\d*(?:\(decimal)\\d{1,\(max)})?|(?:0\(decimal)\\d{1,\(max)}))$"
-        case .url: return "https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{2,}"
+        case .url(_, let min): return "((?:http|https)://)?(?:www\\.)?[\\w\\d\\-_]+\\.\\w{2,3}(\\.\\w{2})?(/(?<=/)(?:[\\w\\d\\-./_]+)?)?{\(min),}"
+//            "https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{\(min),}"
         default: return ".*"
         }
     }
@@ -56,7 +57,7 @@ public enum AnimatedFieldType {
         case .username: return "Username is not valid!"
         case .password: return "Password is not valid!"
         case .price: return "Price is not valid!"
-        case .url(let fieldName): return "\(fieldName) is not valid!"
+        case .url(let fieldName, _): return "\(fieldName) is not valid!"
         default: return ""
         }
     }

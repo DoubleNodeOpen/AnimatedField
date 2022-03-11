@@ -600,7 +600,15 @@ extension AnimatedField {
             price.doubleValue > maxPrice {
             return dataSource?.animatedFieldPriceExceededError(self) ?? type.priceExceededError
         }
-        
+        if
+            case let AnimatedFieldType.url(_, min) = type,
+            let text = text,
+            text.count < min,
+            let url = URL(string: text),
+            url != nil {
+            return dataSource?.animatedFieldValidationError(self) ?? type.validationError
+        }
+
         return nil
     }
 }
