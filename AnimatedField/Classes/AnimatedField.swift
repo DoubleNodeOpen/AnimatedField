@@ -142,6 +142,8 @@ open class AnimatedField: UIView {
             }
             if case AnimatedFieldType.url = type {
                 keyboardType = .URL
+                showTextView(false)
+                setupTextFieldConstraints()
             }
             if case AnimatedFieldType.multiline = type {
                 showTextView(true)
@@ -604,8 +606,7 @@ extension AnimatedField {
             case let AnimatedFieldType.url(_, min) = type,
             let text = text,
             text.count < min,
-            let url = URL(string: text),
-            url != nil {
+            URL(string: text) == nil {
             return dataSource?.animatedFieldValidationError(self) ?? type.validationError
         }
 
