@@ -14,30 +14,30 @@ extension AnimatedField: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if case let AnimatedFieldType.numberpicker(_, _, _, _) = type {
+        if case let AnimatedFieldType.numberpicker = type {
             return numberOptions.count
         }
-        if case let AnimatedFieldType.stringpicker(_, _, _) = type {
+        if case let AnimatedFieldType.stringpicker = type {
             return stringOptions.count
         }
         return 0
     }
     
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if case let AnimatedFieldType.numberpicker(_, _, _, _) = type {
+        if case let AnimatedFieldType.numberpicker = type {
             return "\(numberOptions[row])"
         }
-        if case let AnimatedFieldType.stringpicker(_, _, _) = type {
+        if case let AnimatedFieldType.stringpicker = type {
             return "\(stringOptions[row])"
         }
         return ""
     }
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if case let AnimatedFieldType.numberpicker(_, _, _, _) = type {
+        if case let AnimatedFieldType.numberpicker = type {
             delegate?.animatedField(self, didChangePickerValue: "\(numberOptions[row])")
         }
-        if case let AnimatedFieldType.stringpicker(_, _, _) = type {
+        if case let AnimatedFieldType.stringpicker = type {
             delegate?.animatedField(self, didChangePickerValue: "\(stringOptions[row])")
         }
     }

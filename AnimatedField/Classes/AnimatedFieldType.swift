@@ -16,7 +16,7 @@ public enum AnimatedFieldType {
     case username(Int, Int) // min, max
     case password(Int, Int) // min, max
     case price(Double, Int) // max price, max decimals
-    case url
+    case url(String) // field name
     case datepicker(UIDatePicker.Mode?, Date?, Date?, Date?, String?, String?) // mode, default date, min date, max date, choose text, date format
     case numberpicker(Int, Int, Int, String?) // default number, min number, max number, choose text
     case stringpicker(String, [String], String?) // default string, stringOptions, choose text
@@ -56,7 +56,7 @@ public enum AnimatedFieldType {
         case .username: return "Username is not valid!"
         case .password: return "Password is not valid!"
         case .price: return "Price is not valid!"
-        case .url: return "Url is not valid!"
+        case .url(let fieldName): return "\(fieldName) is not valid!"
         default: return ""
         }
     }
