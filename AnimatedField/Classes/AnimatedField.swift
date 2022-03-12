@@ -602,12 +602,13 @@ extension AnimatedField {
             price.doubleValue > maxPrice {
             return dataSource?.animatedFieldPriceExceededError(self) ?? type.priceExceededError
         }
-        if
-            case let AnimatedFieldType.url(_, min) = type,
-            let text = text,
-            text.count < min,
-            URL(string: text) == nil {
-            return dataSource?.animatedFieldValidationError(self) ?? type.validationError
+        if case let AnimatedFieldType.url(_, min) = type {
+            guard let text = text, text.count >= min else {
+                return dataSource?.animatedFieldValidationError(self) ?? type.validationError
+            }
+            guard text.isEmpty || URL(string: text) != nil else {
+                return dataSource?.animatedFieldValidationError(self) ?? type.validationError
+            }
         }
 
         return nil
