@@ -371,6 +371,9 @@ open class AnimatedField: UIView {
         counterLabelTextFieldConstraint?.isActive = true
         titleLabelTextViewConstraint?.isActive = false
         counterLabelTextViewConstraint?.isActive = false
+        isPlaceholderVisible = false
+        titleLabelTextViewConstraint?.constant = -4
+        titleLabelTextFieldConstraint?.constant = -4
         layoutIfNeeded()
     }
     
@@ -379,6 +382,9 @@ open class AnimatedField: UIView {
         counterLabelTextFieldConstraint?.isActive = false
         titleLabelTextViewConstraint?.isActive = true
         counterLabelTextViewConstraint?.isActive = true
+        isPlaceholderVisible = false
+        titleLabelTextViewConstraint?.constant = -4
+        titleLabelTextFieldConstraint?.constant = -4
         layoutIfNeeded()
     }
     
