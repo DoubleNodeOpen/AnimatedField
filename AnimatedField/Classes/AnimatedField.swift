@@ -286,6 +286,8 @@ open class AnimatedField: UIView {
                 if should {
                     textView.text = newValue
                 }
+                textView.contentOffset.y = 0
+                endTextViewPlaceholder()
             } else {
                 textView.text = ""
             }
@@ -342,6 +344,7 @@ open class AnimatedField: UIView {
         textView.textColor = format.textColor
         textView.tag = tag
         textView.textContainerInset = .zero
+        textView.contentOffset.y = 0
         textView.contentInset = UIEdgeInsets(top: 3, left: -5, bottom: 6, right: 0)
         textViewDidChange(textView)
         endTextViewPlaceholder()
@@ -383,8 +386,8 @@ open class AnimatedField: UIView {
         titleLabelTextViewConstraint?.isActive = true
         counterLabelTextViewConstraint?.isActive = true
         isPlaceholderVisible = false
-        titleLabelTextViewConstraint?.constant = -4
-        titleLabelTextFieldConstraint?.constant = -4
+        titleLabelTextViewConstraint?.constant = 9
+        titleLabelTextFieldConstraint?.constant = 9
         layoutIfNeeded()
     }
     
@@ -515,7 +518,7 @@ extension AnimatedField {
     }
     
     func animateOut() {
-        isPlaceholderVisible = true
+        isPlaceholderVisible = !format.titleAlwaysVisible
         titleLabelTextViewConstraint?.constant = -20
         titleLabelTextFieldConstraint?.constant = -20
         UIView.animate(withDuration: 0.3) { [weak self] in
@@ -571,6 +574,7 @@ extension AnimatedField {
     }
     
     func endTextViewPlaceholder() {
+        textView.contentOffset.y = 0
         if textView.text == "" {
             textView.text = placeholder
             textView.textColor = UIColor.lightGray.withAlphaComponent(0.8)
@@ -580,6 +584,7 @@ extension AnimatedField {
     }
     
     func beginTextViewPlaceholder() {
+        textView.contentOffset.y = 0
         if textView.text == placeholder &&
             textView.textColor == UIColor.lightGray.withAlphaComponent(0.8) {
             textView.text = ""
@@ -608,6 +613,7 @@ extension AnimatedField {
             price.doubleValue > maxPrice {
             return dataSource?.animatedFieldPriceExceededError(self) ?? type.priceExceededError
         }
+
         if case let AnimatedFieldType.url(_, min) = type {
             guard let text = text, text.count >= min else {
                 return dataSource?.animatedFieldValidationError(self) ?? type.validationError
@@ -633,6 +639,11 @@ extension AnimatedField: AnimatedFieldInterface {
         guard format.alertEnabled else { return }
         textField.textColor = format.alertFieldActive ? format.alertColor : format.textColor
         lineView.backgroundColor = format.alertLineActive ? format.alertColor : format.lineColor
+        guard message == nil else {
+            animateInAlert(message)
+            return
+        }
+        let message = validateText(textField.isHidden ? textView.text : textField.text)
         animateInAlert(message)
     }
     
