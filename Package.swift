@@ -17,11 +17,16 @@ let package = Package(
             type: .static,
             targets: ["AnimatedField"]),
     ],
-    dependencies: [],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        .package(url: "https://github.com/DoubleNodeOpen/swift-mask-textfield.git", branch: "master"),
+    ],
     targets: [
          .target(
              name: "AnimatedField",
-             dependencies: [],
+             dependencies: [
+                .product(name: "SwiftMaskTextfield", package: "swift-mask-textfield")
+             ],
              resources: [
                  .copy("Classes/AnimatedField.xib")
              ]
