@@ -6,15 +6,33 @@
 //  Copyright © 2019 FashTime Ltd. All rights reserved.
 //
 
+import DNSCore
 import UIKit
 
 extension UIView {
     
     func fromNib<T : UIView>() -> T? {
-        guard let contentView = Bundle(for: type(of: self)).loadNibNamed(String(describing: type(of: self)), owner: self, options: nil)?.first as? T else {
+//        let xibURL = Bundle.module.url(forResource: String(describing: type(of: self)),
+//                                       withExtension: "xib")
+//        print("xibURL=\(xibURL)")
+//        let bundle = Bundle.dnsLookupNibBundle(for: type(of: self))
+//        print("bundle=\(bundle)")
+//        guard let bundle = Bundle.dnsLookupNibBundle(for: type(of: self)) else {
+//            // xib not found
+//            return nil
+//        }
+        let nib = UINib(nibName: String(describing: type(of: self)),
+                        bundle: Bundle.module)
+        guard let contentView = nib.instantiate(withOwner: self,
+                                                options: nil).first as? T else {
             // xib not loaded, or its top view is of the wrong type
             return nil
         }
+//        guard let contentView = Bundle.module.loadNibNamed(String(describing: type(of: self)),
+//                                                           owner: self, options: nil)?.first as? T else {
+//            // xib not loaded, or its top view is of the wrong type
+//            return nil
+//        }
         self.addSubview(contentView)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.fixConstraintsInView(self)
