@@ -6,12 +6,31 @@
 //  Copyright © 2019 FashTime Ltd. All rights reserved.
 //
 
+import DNSCore
 import UIKit
 
 extension UIView {
     
     func fromNib<T : UIView>() -> T? {
-        guard let contentView = Bundle(for: type(of: self)).loadNibNamed(String(describing: type(of: self)), owner: self, options: nil)?.first as? T else {
+        let xibURL = Bundle.module.url(forResource: String(describing: type(of: self)),
+                                       withExtension: "xib")
+        print("xibURL=\(xibURL)")
+        let bundle = Bundle.dnsLookupNibBundle(for: type(of: self))
+        print("bundle=\(bundle)")
+//        guard let bundle = Bundle.dnsLookupNibBundle(for: type(of: self)) else {
+//            // xib not found
+//            return nil
+//        }
+        let nib = UINib(nibName: String(describing: type(of: self)),
+                        bundle: Bundle.module)
+        print("nib=\(nib)")
+        let views = Bundle.module.loadNibNamed(String(describing: type(of: self)),
+                                               owner: self, options: nil)
+        print("views=\(views)")
+        let view = views?.first as? T
+        print("view=\(view)")
+        guard let contentView = Bundle.module.loadNibNamed(String(describing: type(of: self)),
+                                                           owner: self, options: nil)?.first as? T else {
             // xib not loaded, or its top view is of the wrong type
             return nil
         }
