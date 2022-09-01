@@ -320,7 +320,7 @@ open class AnimatedField: UIView {
         updateCounterLabel()
     }
     
-    private func commonInit() {
+    open func commonInit() {
         _ = fromNib()
         setupView()
         setupTextField()
