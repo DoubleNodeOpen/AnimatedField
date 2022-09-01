@@ -10,8 +10,12 @@ import DNSCore
 import UIKit
 
 extension UIView {
-    
     func fromNib<T : UIView>() -> T? {
+        guard Bundle.module.path(forResource: String(describing: type(of: self)),
+                                 ofType: "nib") != nil else {
+            // file not exists
+            return nil
+        }
         guard let contentView = Bundle.module.loadNibNamed(String(describing: type(of: self)),
                                                            owner: self, options: nil)?.first as? T else {
             // xib not loaded, or its top view is of the wrong type
