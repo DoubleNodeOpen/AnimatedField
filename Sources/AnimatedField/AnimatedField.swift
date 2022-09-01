@@ -320,7 +320,7 @@ open class AnimatedField: UIView {
         updateCounterLabel()
     }
     
-    private func commonInit() {
+    open func commonInit() {
         _ = fromNib()
         setupView()
         setupTextField()
@@ -346,16 +346,19 @@ open class AnimatedField: UIView {
         textFieldIsEnabledKVO = textField
             .observe(\.isEnabled, options: .new) { textField, change in
                 guard let newIsEnabled = change.newValue else { return }
+                guard newIsEnabled != self.isEnabled else { return }
                 self.isEnabled = newIsEnabled
             }
         textFieldIsHighlightedKVO = textField
             .observe(\.isHighlighted, options: .new) { textField, change in
                 guard let newIsHighlighted = change.newValue else { return }
+                guard newIsHighlighted != self.isHighlighted else { return }
                 self.isHighlighted = newIsHighlighted
             }
         textFieldIsSelectedKVO = textField
             .observe(\.isSelected, options: .new) { textField, change in
                 guard let newIsSelected = change.newValue else { return }
+                guard newIsSelected != self.isSelected else { return }
                 self.isSelected = newIsSelected
             }
     }
