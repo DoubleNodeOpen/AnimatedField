@@ -86,6 +86,14 @@ open class AnimatedField: UIView {
     /// Placeholder
     public var placeholder = "" {
         didSet {
+            if let placeholderColor = format.placeholderColor {
+                let placeholderText =
+                NSAttributedString(string: placeholder,
+                                   attributes: [
+                                    NSAttributedString.Key.foregroundColor: placeholderColor
+                                   ])
+                attributedPlaceholder = placeholderText
+            }
             setupTextField()
             setupTextView()
             setupTitle()
@@ -101,7 +109,9 @@ open class AnimatedField: UIView {
 	/// property does not affect any other style-related properties of the text field.
 	public var attributedPlaceholder: NSAttributedString? {
 		didSet {
-			placeholder = attributedPlaceholder?.string ?? ""
+            if placeholder != attributedPlaceholder?.string ?? "" {
+                placeholder = attributedPlaceholder?.string ?? ""
+            }
             setupTextField()
             setupTextView()
             setupTitle()
@@ -269,6 +279,14 @@ open class AnimatedField: UIView {
             counterLabel.textColor = format.counterColor
             alertLabel.font = format.alertFont
             alertLabelBottomConstraint.isActive = format.alertPosition == .top
+            if let placeholderColor = format.placeholderColor {
+                let placeholderText =
+                NSAttributedString(string: placeholder,
+                                   attributes: [
+                                    NSAttributedString.Key.foregroundColor: placeholderColor
+                                   ])
+                attributedPlaceholder = placeholderText
+            }
             layoutIfNeeded()
         }
     }
