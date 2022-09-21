@@ -275,7 +275,7 @@ open class AnimatedField: UIView {
     
     open var text: String? {
         get {
-            return textField.isHidden ? (textView.text == placeholder && textView.textColor == UIColor.lightGray.withAlphaComponent(0.8) ? "" : textView.text) : textField.text
+            return textField.isHidden ? (textView.text == placeholder && textView.textColor == format.placeholderColor ? "" : textView.text) : textField.text
         }
         set {
             if !textField.isHidden {
@@ -590,7 +590,7 @@ extension AnimatedField {
     }
     
     func updateCounterLabel() {
-        let count = textView.text == attributedPlaceholder?.string && textView.textColor == UIColor.lightGray.withAlphaComponent(0.8) ? (textView.text.count - (attributedPlaceholder?.string.count ?? 0)) : textView.text.count
+        let count = textView.text == attributedPlaceholder?.string && textView.textColor == format.placeholderColor ? (textView.text.count - (attributedPlaceholder?.string.count ?? 0)) : textView.text.count
         let value = (dataSource?.animatedFieldLimit(self) ?? 0) - count
         counterLabel.text = format.countDown ? "\(value)" : "\((textView.text?.count ?? 0) + 1)/\(dataSource?.animatedFieldLimit(self) ?? 0)"
         if format.counterAnimation {
@@ -614,7 +614,7 @@ extension AnimatedField {
         textView.contentOffset.y = 0
         if textView.text == "" {
             textView.text = placeholder
-            textView.textColor = UIColor.lightGray.withAlphaComponent(0.8)
+            textView.textColor = format.placeholderColor
         } else {
             textView.textColor = format.textColor
         }
@@ -623,7 +623,7 @@ extension AnimatedField {
     func beginTextViewPlaceholder() {
         textView.contentOffset.y = 0
         if textView.text == placeholder &&
-            textView.textColor == UIColor.lightGray.withAlphaComponent(0.8) {
+            textView.textColor == format.placeholderColor {
             textView.text = ""
         }
         textView.textColor = format.textColor
