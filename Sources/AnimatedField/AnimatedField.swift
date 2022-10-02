@@ -447,6 +447,9 @@ open class AnimatedField: UIView {
     }
     
     private func setupDatePicker(mode: UIDatePicker.Mode?, minDate: Date?, maxDate: Date?, chooseText: String?) {
+        showTextView(false)
+        setupTextFieldConstraints()
+
         datePicker = UIDatePicker(frame: .zero)
         datePicker?.datePickerMode = mode ?? .date
         datePicker?.maximumDate = maxDate
@@ -469,7 +472,9 @@ open class AnimatedField: UIView {
     }
     
     private func setupNumberPicker(defaultNumber: Int, minNumber: Int, maxNumber: Int, chooseText: String?) {
-        
+        showTextView(false)
+        setupTextFieldConstraints()
+
         numberPicker = UIPickerView()
         numberPicker?.dataSource = self
         numberPicker?.delegate = self
@@ -487,7 +492,9 @@ open class AnimatedField: UIView {
     }
 
     private func setupStringPicker(defaultString: String, stringOptions: [String], chooseText: String?) {
-        
+        showTextView(false)
+        setupTextFieldConstraints()
+
         stringPicker = UIPickerView()
         stringPicker?.dataSource = self
         stringPicker?.delegate = self
