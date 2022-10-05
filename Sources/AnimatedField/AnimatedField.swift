@@ -409,6 +409,7 @@ open class AnimatedField: UIView {
         textField.isHidden = show
         textField.text = show ? nil : ""
         textView.isHidden = !show
+        lineView.isHidden = show
     }
     
     private func setupLine() {
