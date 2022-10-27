@@ -83,6 +83,41 @@ open class AnimatedField: UIView {
 		}
 	}
 	
+    /// Title
+    public var title = "" {
+        didSet {
+            let titleColor = format.titleColor
+            let titleText =
+                NSAttributedString(string: title,
+                                   attributes: [
+                                    NSAttributedString.Key.foregroundColor: titleColor
+                                   ])
+                attributedTitle = titleText
+
+            setupTextField()
+            setupTextView()
+            setupTitle()
+        }
+    }
+    
+    /// The styled string that is displayed when there is no other text in the text field.
+    ///
+    /// This property is nil by default. If set, the placeholder string is drawn using system-defined
+    /// color and the remaining style information (except the text color) of the attributed string.
+    /// Assigning a new value to this property also replaces the value of the placeholder property with
+    /// the same string data, albeit without any formatting information. Assigning a new value to this
+    /// property does not affect any other style-related properties of the text field.
+    public var attributedTitle: NSAttributedString? {
+        didSet {
+            if title != attributedTitle?.string ?? "" {
+                title = attributedTitle?.string ?? ""
+            }
+            setupTextField()
+            setupTextView()
+            setupTitle()
+        }
+    }
+    
     /// Placeholder
     public var placeholder = "" {
         didSet {
@@ -390,7 +425,7 @@ open class AnimatedField: UIView {
     }
 
     private func setupTitle() {
-        titleLabel.text = placeholder
+        titleLabel.text = title.isEmpty ? placeholder : title
         titleLabel.alpha = format.titleAlwaysVisible ? 1.0 : 0.0
     }
     
