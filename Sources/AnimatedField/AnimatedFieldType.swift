@@ -61,7 +61,7 @@ public enum AnimatedFieldType {
         default: return ""
         }
     }
-    
+
     var priceExceededError: String {
         switch self {
         case .price(let maxPrice, _): return "Price exceeded limits: max \(maxPrice)"

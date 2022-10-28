@@ -699,19 +699,25 @@ extension AnimatedField {
     func validateText(_ text: String?) -> String? {
         let validationExpression = type.validationExpression
         let regex = dataSource?.animatedFieldValidationMatches(self) ?? validationExpression
-        if let text = text, text != "", !text.isValidWithRegEx(regex) {
-            return dataSource?.animatedFieldValidationError(self) ?? type.validationError
+        if let text = text, !text.isValidWithRegEx(regex) {
+            if text != "" {
+                return dataSource?.animatedFieldValidationError(self) ?? type.validationError
+            }
         }
         
-        if
-            case let AnimatedFieldType.price(maxPrice, _) = type,
-            let text = text,
-            text != "",
-            let price = formatter.number(from: text),
-            price.doubleValue > maxPrice {
-            return dataSource?.animatedFieldPriceExceededError(self) ?? type.priceExceededError
+        if case let AnimatedFieldType.text(_, min, max) = type {
+            let text = text ?? ""
+            if text.count < min || text.count > max {
+                return dataSource?.animatedFieldValidationError(self) ?? type.validationError
+            }
         }
-
+        if case let AnimatedFieldType.price(maxPrice, _) = type {
+            if let text = text, let price = formatter.number(from: text), price.doubleValue > maxPrice {
+                if text != "" {
+                    return dataSource?.animatedFieldPriceExceededError(self) ?? type.priceExceededError
+                }
+            }
+        }
         if case let AnimatedFieldType.url(_, min) = type {
             guard let text = text, text.count >= min else {
                 return dataSource?.animatedFieldValidationError(self) ?? type.validationError
