@@ -664,11 +664,20 @@ extension AnimatedField {
     
     func resizeTextViewHeight() {
         let size = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
-        textViewHeightConstraint.constant = 10 + size.height
+        let maxheight = self.frame.height - 25
+        var newheight = 10 + size.height
+        if newheight > maxheight {
+            textView.isScrollEnabled = true
+            newheight = maxheight
+        } else {
+            textView.isScrollEnabled = false
+        }
+        guard textViewHeightConstraint.constant != newheight else { return }
+        textViewHeightConstraint.constant = newheight
         UIView.animate(withDuration: 0.3) { [weak self] in
             self?.layoutIfNeeded()
         }
-        delegate?.animatedField(self, didResizeHeight: size.height + 10 + titleLabel.frame.size.height)
+        delegate?.animatedField(self, didResizeHeight: newheight + titleLabel.frame.size.height)
     }
     
     func endTextViewPlaceholder() {
