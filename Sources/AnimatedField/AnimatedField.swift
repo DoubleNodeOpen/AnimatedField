@@ -351,9 +351,11 @@ open class AnimatedField: UIView {
                     textView.text = newValue
                 }
                 textView.contentOffset.y = 0
+                textViewDidChange(textView)
                 endTextViewPlaceholder()
             } else {
                 textView.text = ""
+                textViewDidChange(textView)
             }
         }
     }
