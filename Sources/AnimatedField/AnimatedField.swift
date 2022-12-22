@@ -351,9 +351,11 @@ open class AnimatedField: UIView {
                     textView.text = newValue
                 }
                 textView.contentOffset.y = 0
+                textViewDidChange(textView)
                 endTextViewPlaceholder()
             } else {
                 textView.text = ""
+                textViewDidChange(textView)
             }
         }
     }
@@ -382,7 +384,7 @@ open class AnimatedField: UIView {
         setupLine()
         setupEyeButton()
         setupAlertTitle()
-        showTextView(false)
+//        showTextView(false)
     }
     
     private func setupView() {
