@@ -35,6 +35,7 @@ open class AnimatedField: UIView {
     @IBOutlet weak private var eyeButton: UIButton!
     @IBOutlet weak private var lineView: UIView!
     @IBOutlet weak private var textView: UITextView!
+    @IBOutlet weak private var textViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak private var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak private var titleLabelTextFieldConstraint: NSLayoutConstraint?
     @IBOutlet weak private var titleLabelTextViewConstraint: NSLayoutConstraint?
@@ -351,9 +352,11 @@ open class AnimatedField: UIView {
                     textView.text = newValue
                 }
                 textView.contentOffset.y = 0
+                textViewDidChange(textView)
                 endTextViewPlaceholder()
             } else {
                 textView.text = ""
+                textViewDidChange(textView)
             }
         }
     }
