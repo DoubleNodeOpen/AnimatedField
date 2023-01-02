@@ -10,7 +10,7 @@ import UIKit
 extension AnimatedField: UITextViewDelegate {
     
     public func textViewDidChangeSelection(_ textView: UITextView) {
-        textView.contentOffset.y = 0
+//        textView.contentOffset.y = 0
     }
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
@@ -79,7 +79,7 @@ extension AnimatedField: UITextViewDelegate {
     }
     
     public func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.contentOffset.y = 0
+//        textView.contentOffset.y = 0
         beginTextViewPlaceholder()
         if !format.titleAlwaysVisible { animateIn() }
         hideAlert()
