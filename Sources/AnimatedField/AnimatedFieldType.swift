@@ -43,7 +43,7 @@ public enum AnimatedFieldType {
         case .text(_, let min, let max): return ".{\(min),\(max)}"
         case .username(let min, let max): return "[A-Za-z0-9_.]{\(min),\(max)}"
         case .password(let min, let max): return ".{\(min),\(max)}"
-        case .price(_, let max): return "^(?=.*[1-9])([1-9]\\d*(?:\(decimal)\\d{1,\(max)})?|(?:0\(decimal)\\d{1,\(max)}))$"
+        case .price(_, let max): return "^(?=.*[1-9])([1-9]\\d*(?:\(decimal)\\d{2,\(max)})?|(?:0\(decimal)\\d{2,\(max)}))$"
         case .url(_, let min): return
             "https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|www\\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\\.[^\\s]{2,}|https?:\\/\\/(?:www\\.|(?!www))[a-zA-Z0-9]+\\.[^\\s]{2,}|www\\.[a-zA-Z0-9]+\\.[^\\s]{\(min),}"
         default: return ".*"

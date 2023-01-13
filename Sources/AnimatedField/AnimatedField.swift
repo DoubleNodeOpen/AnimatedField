@@ -205,6 +205,11 @@ open class AnimatedField: UIView {
             textField.formatPattern = formatPattern
         }
     }
+    public var prefix: String = "" {
+        didSet {
+            textField.prefix = prefix
+        }
+    }
     open var isEnabled: Bool = true {
         didSet {
             textField.isEnabled = isEnabled
