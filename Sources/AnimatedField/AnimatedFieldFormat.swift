@@ -34,6 +34,9 @@ public struct AnimatedFieldFormat {
     /// TextField text color
     public var textColor = UIColor.darkGray
     
+    /// DatePickerView & PickerView text color
+    public var pickerTextColor = UIColor.white
+    
     /// Counter text color
     public var counterColor = UIColor.darkGray
     

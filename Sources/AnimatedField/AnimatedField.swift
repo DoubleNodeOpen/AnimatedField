@@ -303,6 +303,10 @@ open class AnimatedField: UIView {
     
     open var format = AnimatedFieldFormat() {
         didSet {
+            datePicker?.setValue(format.pickerTextColor, forKey: "textColor")
+            numberPicker?.setValue(format.pickerTextColor, forKey: "textColor")
+            stringPicker?.setValue(format.pickerTextColor, forKey: "textColor")
+
             titleLabel.font = format.titleFont
             titleLabel.textColor = format.titleColor
             textField.font = format.textFont
@@ -497,7 +501,7 @@ open class AnimatedField: UIView {
         datePicker?.datePickerMode = mode ?? .date
         datePicker?.maximumDate = maxDate
         datePicker?.minimumDate = minDate
-        datePicker?.setValue(format.textColor, forKey: "textColor")
+        datePicker?.setValue(format.pickerTextColor, forKey: "textColor")
         if #available(iOS 13.4, *) {
             if #available(iOS 14.0, *) {
                 datePicker?.preferredDatePickerStyle = .inline
@@ -521,7 +525,7 @@ open class AnimatedField: UIView {
         numberPicker = UIPickerView()
         numberPicker?.dataSource = self
         numberPicker?.delegate = self
-        numberPicker?.setValue(format.textColor, forKey: "textColor")
+        numberPicker?.setValue(format.pickerTextColor, forKey: "textColor")
         
         numberOptions += minNumber...maxNumber
         if let index = numberOptions.firstIndex(where: {$0 == defaultNumber}) {
@@ -541,7 +545,7 @@ open class AnimatedField: UIView {
         stringPicker = UIPickerView()
         stringPicker?.dataSource = self
         stringPicker?.delegate = self
-        stringPicker?.setValue(format.textColor, forKey: "textColor")
+        stringPicker?.setValue(format.pickerTextColor, forKey: "textColor")
         
         self.stringOptions = stringOptions
         if let index = stringOptions.firstIndex(where: {$0 == defaultString}) {
