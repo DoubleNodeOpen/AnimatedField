@@ -33,6 +33,7 @@ open class AnimatedField: UIView {
     @IBOutlet weak private var alertLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
     @IBOutlet weak private var eyeButton: UIButton!
+    @IBOutlet weak private var lockImageView: UIImageView!
     @IBOutlet weak private var lineView: UIView!
     @IBOutlet weak private var textView: UITextView!
     @IBOutlet weak private var textViewHeightConstraint: NSLayoutConstraint!
@@ -96,7 +97,7 @@ open class AnimatedField: UIView {
 
             setupTextField()
             setupTextView()
-            setupTitle()
+            updateTitle()
         }
     }
     
@@ -114,7 +115,7 @@ open class AnimatedField: UIView {
             }
             setupTextField()
             setupTextView()
-            setupTitle()
+            updateTitle()
         }
     }
     
@@ -131,7 +132,7 @@ open class AnimatedField: UIView {
             }
             setupTextField()
             setupTextView()
-            setupTitle()
+            updateTitle()
         }
     }
 	
@@ -149,7 +150,7 @@ open class AnimatedField: UIView {
             }
             setupTextField()
             setupTextView()
-            setupTitle()
+            updateTitle()
         }
 	}
 	
@@ -213,6 +214,7 @@ open class AnimatedField: UIView {
     open var isEnabled: Bool = true {
         didSet {
             textField.isEnabled = isEnabled
+            enabledField(isEnabled)
         }
     }
     open var isHighlighted: Bool = false {
@@ -391,6 +393,7 @@ open class AnimatedField: UIView {
         setupTextView()
         setupTitle()
         setupLine()
+        setupLockImage()
         setupEyeButton()
         setupAlertTitle()
 //        showTextView(false)
@@ -436,10 +439,13 @@ open class AnimatedField: UIView {
     }
 
     private func setupTitle() {
-        titleLabel.text = title.isEmpty ? placeholder : title
+        updateTitle()
         titleLabel.alpha = format.titleAlwaysVisible ? 1.0 : 0.0
     }
-    
+    private func updateTitle() {
+        titleLabel.text = title.isEmpty ? placeholder : title
+    }
+
     private func setupTextView() {
         textView.delegate = self
         textView.textColor = format.textColor
@@ -460,6 +466,10 @@ open class AnimatedField: UIView {
     
     private func setupLine() {
         lineView.backgroundColor = format.lineColor
+    }
+    
+    private func setupLockImage() {
+        lockImageView.tintColor = format.textColor
     }
     
     private func setupEyeButton() {
@@ -777,6 +787,10 @@ extension AnimatedField: AnimatedFieldInterface {
         animateOutAlert()
     }
     
+    public func enabledField(_ enabled: Bool) {
+        lockImageView.image = format.notEnabledImage
+        lockImageView.isHidden = enabled
+    }
     public func secureField(_ secure: Bool) {
         isSecure = secure
         eyeButton.setImage(secure ? format.visibleOnImage : format.visibleOffImage, for: .normal)
