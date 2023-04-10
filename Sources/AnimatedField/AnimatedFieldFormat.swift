@@ -61,6 +61,9 @@ public struct AnimatedFieldFormat {
     /// Alert position
     public var alertPosition = AnimatedFieldAlertPosition.top
     
+    /// Enabled icon image
+    public var notEnabledImage = UIImage(named: "lock")
+    
     /// Secure icon image (On status)
     public var visibleOnImage = IconsLibrary.imageOfEye(color: .red)
     
