@@ -8,7 +8,7 @@ import PackageDescription
 let package = Package(
     name: "AnimatedField",
     platforms: [
-        .iOS(.v15),
+        .iOS(.v16),
     ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
@@ -20,7 +20,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/DoubleNodeOpen/swift-mask-textfield.git", from: "1.1.2"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.10.0"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.11.0"),
     ],
     targets: [
          .target(
