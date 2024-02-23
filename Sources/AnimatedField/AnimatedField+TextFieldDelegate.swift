@@ -17,6 +17,11 @@ extension AnimatedField: UITextFieldDelegate {
             return shouldChange
         }
         
+        var string = string
+        // Apply uppercased & lowercased if available
+        if uppercased { string = string.uppercased() }
+        if lowercased { string = string.lowercased() }
+        
         // Copy new character
         var newInput = string
 
@@ -29,10 +34,6 @@ extension AnimatedField: UITextFieldDelegate {
             textField.text = textField.text?.replacingOccurrences(of: invalidCharacter, with: "")
         }
 
-        // Apply uppercased & lowercased if available
-        if uppercased { newInput = newInput.uppercased() }
-        if lowercased { newInput = newInput.lowercased() }
-        
         // Limits & Regular expressions
         let limit = dataSource?.animatedFieldLimit(self) ?? Int.max
         let typingExpression = "\(type.typingExpression)+"
@@ -65,29 +66,25 @@ extension AnimatedField: UITextFieldDelegate {
             }
         }
         
-        var newText = textField.text!
-        let range = Range(range, in: textField.text!)
-        if range != nil {
-            newText.replaceSubrange(range!, with: string)
-        } else if newText.isEmpty {
+        var newText = textField.text ?? string
+        if let newRange = Range(range, in: textField.text!) {
+            newText.replaceSubrange(newRange, with: string)
+        } else {
             newText = string
         }
         if newText.isEmpty {
             if !isPlaceholderVisible {
                 animateOut()
             }
-            return true
         } else {
             if isPlaceholderVisible {
                 animateIn()
             }
         }
-        if newInput.isEmpty {
-            return true
-        }
-
+        textField.text = newText
+        return false
         // Check limits
-        return textField.text?.count ?? 0 + newInput.count < limit
+//        return textField.text?.count ?? 0 + newInput.count < limit
     }
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
