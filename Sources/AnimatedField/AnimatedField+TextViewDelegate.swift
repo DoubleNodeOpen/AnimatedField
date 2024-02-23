@@ -19,6 +19,11 @@ extension AnimatedField: UITextViewDelegate {
             return shouldChange
         }
         
+        var text = text
+        // Apply uppercased & lowercased if available
+        if uppercased { text = text.uppercased() }
+        if lowercased { text = text.lowercased() }
+        
         // Copy new character
         var newInput = text
 
@@ -31,10 +36,6 @@ extension AnimatedField: UITextViewDelegate {
             textView.text = textView.text?.replacingOccurrences(of: invalidCharacter, with: "")
         }
 
-        // Apply uppercased & lowercased if available
-        if uppercased { newInput = newInput.uppercased() }
-        if lowercased { newInput = newInput.lowercased() }
-        
         // Limits & Regular expressions
         let limit = dataSource?.animatedFieldLimit(self) ?? Int.max
         let typingExpression = type.typingExpression
