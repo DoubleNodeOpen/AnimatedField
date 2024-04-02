@@ -67,10 +67,14 @@ extension AnimatedField: UITextFieldDelegate {
         }
         
         var newText = textField.text ?? string
-        if let newRange = Range(range, in: textField.text!) {
-            newText.replaceSubrange(newRange, with: string)
-        } else {
+        if range.length == string.count {
             newText = string
+        } else {
+            if let newRange = Range(range, in: textField.text!) {
+                newText.replaceSubrange(newRange, with: string)
+            } else {
+                newText = string
+            }
         }
         if newText.isEmpty {
             if !isPlaceholderVisible {
