@@ -508,7 +508,8 @@ open class AnimatedField: UIView {
     
     private func setupDatePicker(mode: UIDatePicker.Mode?, minDate: Date?, maxDate: Date?, chooseText: String?) {
         showTextView(false)
-        setupTextFieldConstraints()
+        self.title = chooseText ?? "NONE-DME"
+//        setupTitle()
 
         datePicker = UIDatePicker(frame: .zero)
         datePicker?.datePickerMode = mode ?? .date
@@ -533,7 +534,8 @@ open class AnimatedField: UIView {
     
     private func setupNumberPicker(defaultNumber: Int, minNumber: Int, maxNumber: Int, chooseText: String?) {
         showTextView(false)
-        setupTextFieldConstraints()
+        self.title = chooseText ?? "NONE-DME"
+//        setupTitle()
 
         numberPicker = UIPickerView()
         numberPicker?.dataSource = self
@@ -553,7 +555,8 @@ open class AnimatedField: UIView {
 
     private func setupStringPicker(defaultString: String, stringOptions: [String], chooseText: String?) {
         showTextView(false)
-        setupTextFieldConstraints()
+        self.title = chooseText ?? "NONE-DME"
+//        setupTitle()
 
         stringPicker = UIPickerView()
         stringPicker?.dataSource = self
