@@ -169,16 +169,19 @@ open class AnimatedField: UIView {
                 initialDate = defaultDate
                 dateFormat = format
                 setupDatePicker(mode: mode, minDate: minDate, maxDate: maxDate, chooseText: chooseText)
+                setupTextFieldConstraints()
             }
             if case let AnimatedFieldType.numberpicker(defaultNumber, minNumber, maxNumber, chooseText) = type {
                 self.initialNumber = defaultNumber
                 self.minNumber = minNumber
                 self.maxNumber = maxNumber
                 setupNumberPicker(defaultNumber: defaultNumber, minNumber: minNumber, maxNumber: maxNumber, chooseText: chooseText)
+                setupTextFieldConstraints()
             }
             if case let AnimatedFieldType.stringpicker(defaultString, stringOptions, chooseText) = type {
                 self.initialString = defaultString
                 setupStringPicker(defaultString: defaultString, stringOptions: stringOptions, chooseText: chooseText)
+                setupTextFieldConstraints()
             }
             if case AnimatedFieldType.price = type {
                 keyboardType = .decimalPad
