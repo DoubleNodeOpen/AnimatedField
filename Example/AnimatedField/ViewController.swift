@@ -131,7 +131,7 @@ class ViewController: UIViewController {
 }
 
 
-extension ViewController: AnimatedFieldDelegate {
+extension ViewController: AnimatedFieldDelegate { 
     
     func animatedFieldDidBeginEditing(_ animatedField: AnimatedField) {
         let offset = animatedField.frame.origin.y + animatedField.frame.size.height - (view.frame.height - 350)
