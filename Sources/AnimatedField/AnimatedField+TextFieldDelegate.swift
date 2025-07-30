@@ -86,6 +86,11 @@ extension AnimatedField: UITextFieldDelegate {
             }
         }
         textField.text = newText
+        
+        let offset = range.location + range.length
+        if let newPosition = textField.position(from: textField.beginningOfDocument, offset: offset) {
+            textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
+        }
         return false
         // Check limits
 //        return textField.text?.count ?? 0 + newInput.count < limit
