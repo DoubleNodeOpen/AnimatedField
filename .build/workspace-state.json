@@ -1,0 +1,181 @@
+{
+  "object" : {
+    "artifacts" : [
+      {
+        "kind" : "artifactsArchive",
+        "packageRef" : {
+          "identity" : "swiftlintplugins",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/SimplyDanny/SwiftLintPlugins",
+          "name" : "SwiftLintPlugins"
+        },
+        "path" : "/Users/Shared/Development/Open Source/AnimatedField/.build/artifacts/swiftlintplugins/SwiftLintBinary/SwiftLintBinary.artifactbundle",
+        "source" : {
+          "checksum" : "b9f915a58a818afcc66846740d272d5e73f37baf874e7809ff6f246ea98ad8a2",
+          "type" : "remote",
+          "url" : "https://github.com/realm/SwiftLint/releases/download/0.59.1/SwiftLintBinary.artifactbundle.zip"
+        },
+        "targetName" : "SwiftLintBinary"
+      }
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "atomicswift",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/DoubleNodeOpen/AtomicSwift.git",
+          "name" : "AtomicSwift"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "58fbeed795715d9c8dd7bb7ae1c36f37f2827089",
+            "version" : "1.2.2"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "AtomicSwift"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "dnscore",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/DoubleNode/DNSCore.git",
+          "name" : "DNSCore"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "58e8ad6f955fbba7f3d76d1d02036082f138ff4b",
+            "version" : "2.0.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "DNSCore"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "dnscorethreading",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/DoubleNode/DNSCoreThreading.git",
+          "name" : "DNSCoreThreading"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "d1bff76ae04022e36096f5a36b6a53ba21ffbc32",
+            "version" : "2.0.3"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "DNSCoreThreading"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "dnserror",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/DoubleNode/DNSError.git",
+          "name" : "DNSError"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "cf6f8820c3f61d42d796d466eaa896c78d6361e0",
+            "version" : "2.0.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "DNSError"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "phonenumberkit",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/marmelroy/PhoneNumberKit",
+          "name" : "PhoneNumberKit"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "8cba2258060e356d5fc4836d4ff8549faa2409dd",
+            "version" : "4.1.4"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "PhoneNumberKit"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "sfsymbol",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/Nirma/SFSymbol",
+          "name" : "SFSymbol"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "1b127194b976a58ea460a2cbe10f00fa994b1ece",
+            "version" : "2.3.0"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SFSymbol"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swift-mask-textfield",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/DoubleNodeOpen/swift-mask-textfield.git",
+          "name" : "SwiftMaskTextfield"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "a5546b7ae52f8d6e0b067c25606f3455056b92a5",
+            "version" : "1.1.2"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "swift-mask-textfield"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swiftlintplugins",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/SimplyDanny/SwiftLintPlugins",
+          "name" : "SwiftLintPlugins"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "8545ddf4de043e6f2051c5cf204f39ef778ebf6b",
+            "version" : "0.59.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SwiftLintPlugins"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "swiftybeaver",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/SwiftyBeaver/SwiftyBeaver.git",
+          "name" : "SwiftyBeaver"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "8cba041db09596183331d123f337d0eb2e6e8e91",
+            "version" : "2.1.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "SwiftyBeaver"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

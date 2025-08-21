@@ -1,0 +1,4 @@
+module PhoneNumberKit {
+    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/PhoneNumberKit.build/PhoneNumberKit-Swift.h"
+    requires objc
+}

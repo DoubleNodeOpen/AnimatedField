@@ -1,0 +1,4 @@
+module AtomicSwift {
+    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/AtomicSwift.build/AtomicSwift-Swift.h"
+    requires objc
+}

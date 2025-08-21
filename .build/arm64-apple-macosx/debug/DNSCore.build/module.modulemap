@@ -1,0 +1,4 @@
+module DNSCore {
+    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/DNSCore.build/DNSCore-Swift.h"
+    requires objc
+}

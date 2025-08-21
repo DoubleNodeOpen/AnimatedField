@@ -1,0 +1,4 @@
+module DNSError {
+    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/DNSError.build/DNSError-Swift.h"
+    requires objc
+}

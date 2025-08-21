@@ -180,7 +180,7 @@ class IconsLibrary: NSObject {
     
     class func imageOfEye(color: UIColor = .darkGray, size: CGSize = CGSize(width: 26, height: 26)) -> UIImage {
         struct LocalCache {
-            static var image: UIImage!
+            nonisolated(unsafe) static var image: UIImage!
         }
         if LocalCache.image != nil {
             return LocalCache.image
@@ -198,7 +198,7 @@ class IconsLibrary: NSObject {
     
     class func imageOfEyeoff(color: UIColor = .darkGray, size: CGSize = CGSize(width: 26, height: 26)) -> UIImage {
         struct LocalCache {
-            static var image: UIImage!
+            nonisolated(unsafe) static var image: UIImage!
         }
         if LocalCache.image != nil {
             return LocalCache.image

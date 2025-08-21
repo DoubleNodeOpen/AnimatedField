@@ -209,6 +209,7 @@ public extension AnimatedFieldDelegate {
     }
 }
 
+@MainActor
 public protocol AnimatedFieldInterface {
     
     /**

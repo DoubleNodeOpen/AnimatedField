@@ -1,0 +1,4 @@
+module AnimatedField {
+    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/AnimatedField.build/AnimatedField-Swift.h"
+    requires objc
+}

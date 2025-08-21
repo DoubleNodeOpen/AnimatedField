@@ -1,0 +1,4 @@
+module SwiftMaskTextfield {
+    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/SwiftMaskTextfield.build/SwiftMaskTextfield-Swift.h"
+    requires objc
+}

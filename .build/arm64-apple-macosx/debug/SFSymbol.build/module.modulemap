@@ -1,0 +1,4 @@
+module SFSymbol {
+    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/SFSymbol.build/SFSymbol-Swift.h"
+    requires objc
+}
