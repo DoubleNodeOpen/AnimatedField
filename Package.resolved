@@ -1,4 +1,5 @@
 {
+  "originHash" : "400e43ef302886c59404eef7fa252024e70a4b13950b94477914fdd4935203b0",
   "pins" : [
     {
       "identity" : "atomicswift",
@@ -14,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/DoubleNode/DNSCore.git",
       "state" : {
-        "revision" : "58e8ad6f955fbba7f3d76d1d02036082f138ff4b",
-        "version" : "2.0.1"
+        "revision" : "57d21f681cd6c806e02e51ec0f151f84d600f425",
+        "version" : "2.0.2"
       }
     },
     {
@@ -82,5 +83,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
