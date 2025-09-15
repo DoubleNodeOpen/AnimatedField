@@ -36,17 +36,7 @@ let package = Package(
                 .product(name: "SwiftMaskTextfield", package: "swift-mask-textfield")
              ],
              resources: [.process("Resources/AnimatedField.xib")],
-             swiftSettings: [
-                 .enableUpcomingFeature("BareSlashRegexLiterals"),
-                 .enableUpcomingFeature("ConciseMagicFile"),
-                 .enableUpcomingFeature("ForwardTrailingClosures"),
-                 .enableUpcomingFeature("ImportObjcForwardDeclarations"),
-                 .enableUpcomingFeature("DisableOutwardActorInference"),
-                 .enableUpcomingFeature("ExistentialAny"),
-                 .enableUpcomingFeature("StrictConcurrency"),
-                 .enableUpcomingFeature("GlobalConcurrency")
-             ]
          )
      ],
-    swiftLanguageModes: [.v6]
+    swiftLanguageModes: [.v5]
 )
