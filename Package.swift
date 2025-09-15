@@ -9,11 +9,11 @@ let package = Package(
     name: "AnimatedField",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v18),
-        .tvOS(.v18),
-        .macCatalyst(.v18),
-        .macOS(.v15),
-        .watchOS(.v11),
+        .iOS(.v16),
+        .tvOS(.v16),
+        .macCatalyst(.v16),
+        .macOS(.v13),
+        .watchOS(.v9),
     ],
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
@@ -24,8 +24,9 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/DoubleNodeOpen/swift-mask-textfield.git", from: "1.1.2"),
-        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "2.0.2"),
+        .package(url: "https://github.com/DoubleNodeOpen/swift-mask-textfield.git", from: "1.1.3"),
+//        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "2.0.2"),
+        .package(path: "../../DNSFramework/DNSCore"),
     ],
     targets: [
          .target(
