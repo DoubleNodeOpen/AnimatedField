@@ -25,8 +25,8 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/DoubleNodeOpen/swift-mask-textfield.git", from: "1.1.3"),
-//        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "2.0.2"),
-        .package(path: "../../DNSFramework/DNSCore"),
+        .package(url: "https://github.com/DoubleNode/DNSCore.git", from: "1.12.0"),
+//        .package(path: "../../DNSFramework/DNSCore"),
     ],
     targets: [
          .target(
