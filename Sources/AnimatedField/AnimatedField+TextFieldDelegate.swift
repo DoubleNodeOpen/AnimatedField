@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftMaskTextfield
 
 extension AnimatedField: UITextFieldDelegate {
     
@@ -32,6 +33,10 @@ extension AnimatedField: UITextFieldDelegate {
 
             // Replace special characters in textField
             textField.text = textField.text?.replacingOccurrences(of: invalidCharacter, with: "")
+            // Trigger formatting after text change
+            if let maskTextField = textField as? SwiftMaskTextfield {
+                maskTextField.formatText()
+            }
         }
 
         // Limits & Regular expressions
@@ -45,6 +50,10 @@ extension AnimatedField: UITextFieldDelegate {
         // Change textfield in manual mode in case of changing newInput. Check limits also
         if newInput != string {
             textField.text = textField.text?.count ?? 0 + newInput.count <= limit ? "\(textField.text ?? "")\(newInput)" : textField.text
+            // Trigger formatting after text change
+            if let maskTextField = textField as? SwiftMaskTextfield {
+                maskTextField.formatText()
+            }
             return false
         }
         
@@ -86,7 +95,12 @@ extension AnimatedField: UITextFieldDelegate {
             }
         }
         textField.text = newText
-        
+
+        // Explicitly trigger SwiftMaskTextfield formatting after manual text change
+        if let maskTextField = textField as? SwiftMaskTextfield {
+            maskTextField.formatText()
+        }
+
         var offset = range.location + range.length + string.count
         if string.count == 0 {
             offset -= range.length
