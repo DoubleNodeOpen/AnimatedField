@@ -101,9 +101,14 @@ extension AnimatedField: UITextFieldDelegate {
             maskTextField.formatText()
         }
 
+        // Calculate cursor position AFTER formatting to account for auto-inserted characters
         var offset = range.location + range.length + string.count
         if string.count == 0 {
             offset -= range.length
+        } else {
+            // If formatText() added characters, adjust cursor to end of text
+            // This ensures cursor is placed after the newly typed character and any auto-inserted separators
+            offset = textField.text?.count ?? offset
         }
         if let newPosition = textField.position(from: textField.beginningOfDocument, offset: offset) {
             textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
