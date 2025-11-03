@@ -2,6 +2,10 @@
    <img width="500" src="https://raw.githubusercontent.com/alberdev/AnimatedField/master/Images/header_AnimatedField.png" alt="AnimatedField  Logo">
 </p>
 
+> **⚠️ Enhanced Fork Notice**
+> This is an actively maintained and enhanced fork of [alberdev/AnimatedField](https://github.com/alberdev/AnimatedField).
+> See [Improvements](#improvements-over-upstream) for details on enhancements.
+
 <p align="center">
    <a href="https://cocoapods.org/pods/AnimatedField">
       <img src="https://img.shields.io/cocoapods/v/AnimatedField.svg?style=flat&colorB=008B60" alt="Version">
@@ -15,7 +19,13 @@
       <img src="https://img.shields.io/cocoapods/l/AnimatedField.svg?style=flat)" alt="License">
    </a>
    <a href="https://developer.apple.com/swift/">
-      <img src="https://img.shields.io/badge/Swift-5.0-blue.svg?style=flat&colorB=008B60" alt="Swift 5.0">
+      <img src="https://img.shields.io/badge/Swift-6.0-blue.svg?style=flat&colorB=008B60" alt="Swift 6.0">
+   </a>
+   <a href="https://developer.apple.com/ios/">
+      <img src="https://img.shields.io/badge/iOS-16.0+-green.svg?style=flat&colorB=008B60" alt="iOS 16.0+">
+   </a>
+   <a href="https://github.com/DoubleNodeOpen/AnimatedField">
+      <img src="https://img.shields.io/badge/SPM-compatible-4BC51D.svg?style=flat" alt="Swift Package Manager">
    </a>
    <a href="https://cocoapods.org/pods/AnimatedField">
       <img src="https://img.shields.io/cocoapods/p/AnimatedField.svg?style=flat&colorB=008B60" alt="Platform">
@@ -50,10 +60,47 @@
 - [x] Check & filter with regular expressions
 - [x] Limit text length
 - [x] Easy usage
-- [x] Supports iOS, developed in Swift 5
+- [x] Supports iOS 16+, developed in Swift 6.0
+
+## Improvements Over Upstream
+
+This enhanced fork includes significant improvements over the original:
+
+### 🛡️ Safety & Stability
+- ✅ **Zero force unwraps** - Eliminated all crash risks with proper optional handling
+- ✅ **No private API usage** - 100% App Store compliant (removed setValue:forKey:)
+- ✅ **Thread-safe** - Fixed concurrency issues with proper @MainActor annotations
+- ✅ **Bounds checking** - All array access validated
+
+### 🚀 Modern Swift
+- ✅ **Swift 6.0** - Full concurrency support with @MainActor
+- ✅ **iOS 16+** - Modern platform APIs and features
+- ✅ **Swift Package Manager** - First-class SPM support with Package.swift
+
+### ♿ Accessibility
+- ✅ **VoiceOver support** - Complete accessibility implementation
+- ✅ **Dynamic labels** - Context-aware accessibility hints
+- ✅ **WCAG compliant** - Meets accessibility guidelines
+
+### 📦 Additional Features
+- ✅ **Lock image** - Visual indicator for disabled state
+- ✅ **Prefix support** - Add text prefixes to fields
+- ✅ **Improved cursor** - Fixed positioning after formatting
+- ✅ **String picker** - Enhanced picker with duplicate handling
+- ✅ **Better TextView** - Improved multiline support with scrolling
+
+### 📚 Documentation
+- ✅ **Comprehensive docs** - CLAUDE.md with architecture details
+- ✅ **Inline comments** - Complex behaviors fully documented
+- ✅ **Better examples** - Clear usage patterns
+
+### ⚡ Performance
+- ✅ **Lazy initialization** - NumberFormatter created once and reused
+- ✅ **Optimized rendering** - Removed unnecessary object creation
 
 ## Table of Contents
 
+- [Improvements Over Upstream](#improvements-over-upstream)
 - [Installation](#installation)
 - [Usage](#usage)
   - [UIView in your xib / storyboard](#uiviewinyourxib/storyboard)
