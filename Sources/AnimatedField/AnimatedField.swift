@@ -52,18 +52,19 @@ open class AnimatedField: UIView {
     
     /// Number Picker values
     private var numberPicker: UIPickerView?
-    private var numberOptions = [Int]()
+    internal var numberOptions = [Int]()  // internal for access from UIPickerViewDelegate extension in another file
     private var initialNumber: Int?
     private var minNumber: Int = 0
     private var maxNumber: Int = 1
 
     /// String Picker values
     private var stringPicker: UIPickerView?
-    private var stringOptions = [String]()
+    internal var stringOptions = [String]()  // internal for access from UIPickerViewDelegate extension in another file
     private var initialString: String?
 
     /// Number formatter for price fields - created once and reused
-    private lazy var formatter: NumberFormatter = {
+    /// internal for access from TextFieldDelegate and TextViewDelegate extensions in other files
+    internal lazy var formatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.locale = Locale.current
         formatter.numberStyle = .decimal
