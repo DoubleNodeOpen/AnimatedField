@@ -13,7 +13,7 @@ class IconsLibrary: NSObject {
     
     class func drawEye(frame targetFrame: CGRect = CGRect(x: 0, y: 0, width: 24, height: 24), resizing: ResizingBehavior = .aspectFit, color: UIColor = .darkGray) {
         /// General Declarations
-        let context = UIGraphicsGetCurrentContext()!
+        guard let context = UIGraphicsGetCurrentContext() else { return }
         
         /// Resize to Target Frame
         context.saveGState()
@@ -87,7 +87,7 @@ class IconsLibrary: NSObject {
     
     class func drawEyeoff(frame targetFrame: CGRect = CGRect(x: 0, y: 0, width: 24, height: 24), resizing: ResizingBehavior = .aspectFit, color: UIColor = .darkGray) {
         /// General Declarations
-        let context = UIGraphicsGetCurrentContext()!
+        guard let context = UIGraphicsGetCurrentContext() else { return }
         
         /// Resize to Target Frame
         context.saveGState()
@@ -179,38 +179,26 @@ class IconsLibrary: NSObject {
     //MARK: - Canvas Images
     
     class func imageOfEye(color: UIColor = .darkGray, size: CGSize = CGSize(width: 26, height: 26)) -> UIImage {
-        struct LocalCache {
-            nonisolated(unsafe) static var image: UIImage!
-        }
-        if LocalCache.image != nil {
-            return LocalCache.image
-        }
-        var image: UIImage
-        
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         IconsLibrary.drawEye(frame: CGRect(origin: .zero, size: size), resizing: .aspectFit, color: color)
-        image = UIGraphicsGetImageFromCurrentImageContext()!
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            UIGraphicsEndImageContext()
+            return UIImage()
+        }
         UIGraphicsEndImageContext()
-        
-        LocalCache.image = image
+
         return image
     }
     
     class func imageOfEyeoff(color: UIColor = .darkGray, size: CGSize = CGSize(width: 26, height: 26)) -> UIImage {
-        struct LocalCache {
-            nonisolated(unsafe) static var image: UIImage!
-        }
-        if LocalCache.image != nil {
-            return LocalCache.image
-        }
-        var image: UIImage
-        
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         IconsLibrary.drawEyeoff(frame: CGRect(origin: .zero, size: size), resizing: .aspectFit, color: color)
-        image = UIGraphicsGetImageFromCurrentImageContext()!
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            UIGraphicsEndImageContext()
+            return UIImage()
+        }
         UIGraphicsEndImageContext()
-        
-        LocalCache.image = image
+
         return image
     }
     

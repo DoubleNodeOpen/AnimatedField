@@ -10,7 +10,7 @@ import UIKit
 extension AnimatedField: UITextViewDelegate {
     
     public func textViewDidChangeSelection(_ textView: UITextView) {
-//        textView.contentOffset.y = 0
+        // Placeholder for future functionality
     }
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
@@ -63,17 +63,13 @@ extension AnimatedField: UITextViewDelegate {
                     }
                 }
                 if price.doubleValue > maxPrice {
-                    // return false
+                    return false
                 }
             }
         }
-//        if newInput.isEmpty {
-//            return true
-//        }
+
         textView.text = newInput
         return false
-        // Check limits
-//        return textView.text?.count ?? 0 + newInput.count < limit
     }
     
     public func textViewDidChange(_ textView: UITextView) {
@@ -82,7 +78,6 @@ extension AnimatedField: UITextViewDelegate {
     }
     
     public func textViewDidBeginEditing(_ textView: UITextView) {
-//        textView.contentOffset.y = 0
         beginTextViewPlaceholder()
         if !format.titleAlwaysVisible { animateIn() }
         hideAlert()

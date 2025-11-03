@@ -25,9 +25,11 @@ extension AnimatedField: UIPickerViewDataSource, UIPickerViewDelegate {
     
     public func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if case AnimatedFieldType.numberpicker = type {
+            guard row < numberOptions.count else { return "" }
             return "\(numberOptions[row])"
         }
         if case AnimatedFieldType.stringpicker = type {
+            guard row < stringOptions.count else { return "" }
             return "\(stringOptions[row])"
         }
         return ""
@@ -35,9 +37,11 @@ extension AnimatedField: UIPickerViewDataSource, UIPickerViewDelegate {
     
     public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if case AnimatedFieldType.numberpicker = type {
+            guard row < numberOptions.count else { return }
             delegate?.animatedField(self, didChangePickerValue: "\(numberOptions[row])")
         }
         if case AnimatedFieldType.stringpicker = type {
+            guard row < stringOptions.count else { return }
             delegate?.animatedField(self, didChangePickerValue: "\(stringOptions[row])")
         }
     }

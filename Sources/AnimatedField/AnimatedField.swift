@@ -25,7 +25,9 @@ extension UIToolbar {
 }
 
 open class AnimatedField: UIView {
-    
+
+    private static let defaultPickerTitle = ""
+
     @IBOutlet weak private var textField: SwiftMaskTextfield!
     @IBOutlet weak private var textFieldHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak private var textFieldRightConstraint: NSLayoutConstraint!
@@ -390,7 +392,10 @@ open class AnimatedField: UIView {
     }
     
     open func commonInit() {
-        _ = fromNib()
+        guard fromNib() != nil else {
+            assertionFailure("Failed to load AnimatedField from XIB")
+            return
+        }
         setupView()
         setupTextField()
         setupTextView()
@@ -399,7 +404,6 @@ open class AnimatedField: UIView {
         setupLockImage()
         setupEyeButton()
         setupAlertTitle()
-//        showTextView(false)
     }
     
     private func setupView() {
@@ -517,8 +521,7 @@ open class AnimatedField: UIView {
     
     private func setupDatePicker(mode: UIDatePicker.Mode?, minDate: Date?, maxDate: Date?, chooseText: String?) {
         showTextView(false)
-        self.title = chooseText ?? "NONE-DME"
-//        setupTitle()
+        self.title = chooseText ?? AnimatedField.defaultPickerTitle
 
         datePicker = UIDatePicker(frame: .zero)
         datePicker?.datePickerMode = mode ?? .date
@@ -543,8 +546,7 @@ open class AnimatedField: UIView {
     
     private func setupNumberPicker(defaultNumber: Int, minNumber: Int, maxNumber: Int, chooseText: String?) {
         showTextView(false)
-        self.title = chooseText ?? "NONE-DME"
-//        setupTitle()
+        self.title = chooseText ?? AnimatedField.defaultPickerTitle
 
         numberPicker = UIPickerView()
         numberPicker?.dataSource = self
@@ -564,8 +566,7 @@ open class AnimatedField: UIView {
 
     private func setupStringPicker(defaultString: String, stringOptions: [String], chooseText: String?) {
         showTextView(false)
-        self.title = chooseText ?? "NONE-DME"
-//        setupTitle()
+        self.title = chooseText ?? AnimatedField.defaultPickerTitle
 
         stringPicker = UIPickerView()
         stringPicker?.dataSource = self
@@ -687,9 +688,22 @@ extension AnimatedField {
     }
     
     func updateCounterLabel() {
-        let count = textView.text == attributedPlaceholder?.string && textView.textColor == format.placeholderColor ? (textView.text.count - (attributedPlaceholder?.string.count ?? 0)) : textView.text.count
-        let value = (dataSource?.animatedFieldLimit(self) ?? 0) - count
-        counterLabel.text = format.countDown ? "\(value)" : "\((textView.text?.count ?? 0) + 1)/\(dataSource?.animatedFieldLimit(self) ?? 0)"
+        // Determine if textView is showing placeholder
+        let isPlaceholderShown = textView.text == attributedPlaceholder?.string && textView.textColor == format.placeholderColor
+
+        // Get actual text count (0 if placeholder is shown)
+        let currentCount = isPlaceholderShown ? 0 : (textView.text?.count ?? 0)
+        let limit = dataSource?.animatedFieldLimit(self) ?? 0
+
+        // Update counter text based on count mode
+        if format.countDown {
+            let remaining = limit - currentCount
+            counterLabel.text = "\(remaining)"
+        } else {
+            counterLabel.text = "\(currentCount)/\(limit)"
+        }
+
+        // Animate counter if enabled
         if format.counterAnimation {
             counterLabel.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
             UIView.animate(withDuration: 0.3) { [weak self] in

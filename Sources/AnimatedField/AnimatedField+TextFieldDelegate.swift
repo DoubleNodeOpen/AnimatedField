@@ -70,7 +70,7 @@ extension AnimatedField: UITextFieldDelegate {
                     }
                 }
                 if price.doubleValue > maxPrice {
-                    // return false
+                    return false
                 }
             }
         }
@@ -79,7 +79,7 @@ extension AnimatedField: UITextFieldDelegate {
         if range.length == string.count {
             newText = string
         } else {
-            if let newRange = Range(range, in: textField.text!) {
+            if let text = textField.text, let newRange = Range(range, in: text) {
                 newText.replaceSubrange(newRange, with: string)
             } else {
                 newText = string
@@ -114,8 +114,6 @@ extension AnimatedField: UITextFieldDelegate {
             textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
         }
         return false
-        // Check limits
-//        return textField.text?.count ?? 0 + newInput.count < limit
     }
     
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
