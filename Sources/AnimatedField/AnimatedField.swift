@@ -52,22 +52,23 @@ open class AnimatedField: UIView {
     
     /// Number Picker values
     private var numberPicker: UIPickerView?
-    var numberOptions = [Int]()
+    private var numberOptions = [Int]()
     private var initialNumber: Int?
     private var minNumber: Int = 0
     private var maxNumber: Int = 1
 
     /// String Picker values
     private var stringPicker: UIPickerView?
-    var stringOptions = [String]()
+    private var stringOptions = [String]()
     private var initialString: String?
-    
-    var formatter: NumberFormatter {
+
+    /// Number formatter for price fields - created once and reused
+    private lazy var formatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        formatter.locale = Locale.current // USA: Locale(identifier: "en_US")
+        formatter.locale = Locale.current
         formatter.numberStyle = .decimal
         return formatter
-    }
+    }()
 	
 	var isPlaceholderVisible = false {
 		didSet {
@@ -256,16 +257,27 @@ open class AnimatedField: UIView {
 
     /// Keyboard type
     public var keyboardType = UIKeyboardType.alphabet {
-        didSet { textField.keyboardType = keyboardType }
+        didSet {
+            textField.keyboardType = keyboardType
+            textView.keyboardType = keyboardType
+        }
     }
 	
     public var returnKeyType = UIReturnKeyType.default {
-        didSet { textField.returnKeyType = returnKeyType }
+        didSet {
+            textField.returnKeyType = returnKeyType
+            textView.returnKeyType = returnKeyType
+        }
     }
-    
-	public var keyboardToolbar: UIToolbar? {
-		didSet { textField.inputView = keyboardToolbar }
-	}
+
+    /// Custom input view to replace the keyboard (e.g., picker view, custom controls)
+    /// Note: This replaces the keyboard entirely. Use `accessoryView` for toolbar above keyboard.
+    public var customInputView: UIView? {
+        didSet {
+            textField.inputView = customInputView
+            textView.inputView = customInputView
+        }
+    }
     
     /// Secure field (dot format)
     public var isSecure = false {
@@ -310,9 +322,9 @@ open class AnimatedField: UIView {
     
     open var format = AnimatedFieldFormat() {
         didSet {
-            datePicker?.setValue(format.pickerTextColor, forKey: "textColor")
-            numberPicker?.setValue(format.pickerTextColor, forKey: "textColor")
-            stringPicker?.setValue(format.pickerTextColor, forKey: "textColor")
+            // Note: Picker text color customization removed to avoid private API usage
+            // UIPickerView and UIDatePicker do not provide public APIs for text color customization
+            // If needed, consider using appearance proxy or custom picker views
 
             titleLabel.font = format.titleFont
             titleLabel.textColor = format.titleColor
@@ -527,7 +539,6 @@ open class AnimatedField: UIView {
         datePicker?.datePickerMode = mode ?? .date
         datePicker?.maximumDate = maxDate
         datePicker?.minimumDate = minDate
-        datePicker?.setValue(format.pickerTextColor, forKey: "textColor")
         if #available(iOS 13.4, *) {
             if #available(iOS 14.0, *) {
                 datePicker?.preferredDatePickerStyle = .inline
@@ -551,7 +562,6 @@ open class AnimatedField: UIView {
         numberPicker = UIPickerView()
         numberPicker?.dataSource = self
         numberPicker?.delegate = self
-        numberPicker?.setValue(format.pickerTextColor, forKey: "textColor")
         
         numberOptions += minNumber...maxNumber
         if let index = numberOptions.firstIndex(where: {$0 == defaultNumber}) {
@@ -571,7 +581,6 @@ open class AnimatedField: UIView {
         stringPicker = UIPickerView()
         stringPicker?.dataSource = self
         stringPicker?.delegate = self
-        stringPicker?.setValue(format.pickerTextColor, forKey: "textColor")
         
         self.stringOptions = stringOptions
         if let index = stringOptions.firstIndex(where: {$0 == defaultString}) {

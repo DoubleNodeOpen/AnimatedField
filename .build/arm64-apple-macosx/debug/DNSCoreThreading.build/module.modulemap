@@ -1,4 +1,0 @@
-module DNSCoreThreading {
-    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/DNSCoreThreading.build/DNSCoreThreading-Swift.h"
-    requires objc
-}

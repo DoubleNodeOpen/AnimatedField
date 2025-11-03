@@ -1,4 +1,0 @@
-module SwiftyBeaver {
-    header "/Users/Shared/Development/Open Source/AnimatedField/.build/arm64-apple-macosx/debug/SwiftyBeaver.build/SwiftyBeaver-Swift.h"
-    requires objc
-}
