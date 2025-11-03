@@ -10,16 +10,16 @@ import SwiftMaskTextfield
 import UIKit
 
 extension UIToolbar {
-	
+
 	convenience init(target: Any, selector: Selector) {
-		
+
 		let rect = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.size.width, height: 44.0)
 		let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 		let barButton = UIBarButtonItem(barButtonSystemItem: .done, target: target, action: selector)
-		
+
 		self.init(frame: rect)
-		barStyle = .black
-		tintColor = .white
+		barStyle = .default  // Changed from .black to .default for better visibility
+		tintColor = .systemBlue  // Changed from .white to .systemBlue for visibility on light backgrounds
 		setItems([flexible, barButton], animated: false)
 	}
 }
