@@ -24,6 +24,7 @@ extension UIToolbar {
 	}
 }
 
+@MainActor
 open class AnimatedField: UIView {
 
     private static let defaultPickerTitle = ""
@@ -102,6 +103,7 @@ open class AnimatedField: UIView {
             setupTextField()
             setupTextView()
             updateTitle()
+            updateAccessibility()
         }
     }
     
@@ -355,6 +357,31 @@ open class AnimatedField: UIView {
         }
     }
     
+    /// The text content of the field.
+    ///
+    /// ## Important Behavior Notes:
+    ///
+    /// ### Getter:
+    /// - Returns the visible field's text (textField for single-line, textView for multiline)
+    /// - For multiline fields, returns empty string if showing placeholder
+    ///
+    /// ### Setter:
+    /// - **Calls delegate methods**: This setter invokes `shouldChangeCharactersIn` delegate methods
+    ///   to ensure validation and formatting are applied, even when setting text programmatically.
+    /// - **Respects validation**: If delegate/validation returns false, text won't be set.
+    /// - **Triggers animations**: May trigger placeholder animations and counter updates.
+    /// - **Updates both fields**: Sets the appropriate field based on field type (single/multiline).
+    ///
+    /// ### Use Cases:
+    /// - ✅ Setting initial values: `field.text = "John Doe"`
+    /// - ✅ Clearing the field: `field.text = ""`
+    /// - ✅ Programmatic updates that should respect validation
+    ///
+    /// ### Caveats:
+    /// - Setting text programmatically will trigger delegate methods, which may cause side effects
+    ///   if delegates perform actions on text changes.
+    /// - If validation fails, text may not be set as expected (check return value of delegates).
+    /// - For multiline fields, updates textView state and placeholder management.
     open var text: String? {
         get {
             return textField.isHidden ? (textView.text == placeholder && textView.textColor == format.placeholderColor ? "" : textView.text) : textField.text
@@ -430,6 +457,9 @@ open class AnimatedField: UIView {
         textField.backgroundColor = .clear
         textFieldHeightConstraint.constant = format.textFieldHeight
         isPlaceholderVisible = !format.titleAlwaysVisible
+
+        // Accessibility setup
+        updateAccessibility()
         textFieldIsEnabledKVO = textField
             .observe(\.isEnabled, options: .new) { [weak self] textField, change in
                 Task { @MainActor in
@@ -484,6 +514,9 @@ open class AnimatedField: UIView {
         textView.contentInset = UIEdgeInsets(top: 3, left: -5, bottom: 6, right: 0)
         textViewDidChange(textView)
         endTextViewPlaceholder()
+
+        // Accessibility setup
+        updateAccessibility()
     }
     
     private func showTextView(_ show: Bool) {
@@ -764,7 +797,43 @@ extension AnimatedField {
         titleLabel.textColor = highlight ? color : format.titleColor
         lineView.backgroundColor = highlight ? color : format.lineColor
     }
-    
+
+    /// Update accessibility labels and hints for VoiceOver support
+    func updateAccessibility() {
+        let fieldLabel = title.isEmpty ? placeholder : title
+
+        // Setup text field accessibility
+        textField.accessibilityLabel = fieldLabel
+        textField.accessibilityHint = placeholder.isEmpty ? nil : placeholder
+        textField.isAccessibilityElement = true
+
+        // Setup text view accessibility
+        textView.accessibilityLabel = fieldLabel
+        textView.accessibilityHint = placeholder.isEmpty ? nil : placeholder
+        textView.isAccessibilityElement = true
+
+        // Alert label accessibility
+        alertLabel.isAccessibilityElement = !alertLabel.text?.isEmpty ?? true
+        alertLabel.accessibilityTraits = .staticText
+
+        // Counter label accessibility
+        if format.counterEnabled {
+            counterLabel.isAccessibilityElement = true
+            counterLabel.accessibilityLabel = "Character count"
+            counterLabel.accessibilityTraits = .updatesFrequently
+        } else {
+            counterLabel.isAccessibilityElement = false
+        }
+
+        // Eye button accessibility for secure fields
+        if showVisibleButton {
+            eyeButton.isAccessibilityElement = true
+            eyeButton.accessibilityLabel = "Toggle password visibility"
+            eyeButton.accessibilityHint = textField.isSecureTextEntry ? "Double tap to show password" : "Double tap to hide password"
+            eyeButton.accessibilityTraits = .button
+        }
+    }
+
     func validateText(_ text: String?) -> String? {
         let validationExpression = type.validationExpression
         let regex = dataSource?.animatedFieldValidationMatches(self) ?? validationExpression
@@ -833,6 +902,7 @@ extension AnimatedField: AnimatedFieldInterface {
     public func secureField(_ secure: Bool) {
         isSecure = secure
         eyeButton.setImage(secure ? format.visibleOnImage : format.visibleOffImage, for: .normal)
+        updateAccessibility()  // Update accessibility hint when visibility toggles
         delegate?.animatedField(self, didSecureText: secure)
     }
 }
