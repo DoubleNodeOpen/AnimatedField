@@ -5,6 +5,17 @@ All notable changes to AnimatedField (Enhanced Fork) will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2025-11-03
+
+### Fixed
+- **Accessibility logic error** - Corrected boolean operator precedence in `updateAccessibility()` method
+  - Fixed: `alertLabel.isAccessibilityElement = !alertLabel.text?.isEmpty ?? true`
+  - To: `alertLabel.isAccessibilityElement = !(alertLabel.text?.isEmpty ?? true)`
+  - Impact: Alert label is now correctly accessible only when it contains text
+  - Line: AnimatedField.swift:816
+
+This patch release fixes a compiler error and ensures proper accessibility behavior for alert messages.
+
 ## [3.0.0] - 2025-11-03
 
 ### 🎉 Major Release - Enhanced Fork

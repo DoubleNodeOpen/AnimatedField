@@ -15,7 +15,7 @@ s.ios.deployment_target = '16.0'
 s.name              = 'AnimatedField'
 s.summary           = 'Enhanced AnimatedField: Swift 6, accessibility, zero crashes - Modern animated text fields with validation'
 s.description       = 'Enhanced fork with Swift 6 support, VoiceOver accessibility, zero force unwraps, and comprehensive improvements. Animated UITextField/UITextView with validation using regular expressions for common types (email, url, password, price, date). Thread-safe and App Store compliant.'
-s.version           = '3.0.0'
+s.version           = '3.0.1'
 
 # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
