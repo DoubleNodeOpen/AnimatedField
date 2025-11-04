@@ -813,7 +813,7 @@ extension AnimatedField {
         textView.isAccessibilityElement = true
 
         // Alert label accessibility
-        alertLabel.isAccessibilityElement = !alertLabel.text?.isEmpty ?? true
+        alertLabel.isAccessibilityElement = !(alertLabel.text?.isEmpty ?? true)
         alertLabel.accessibilityTraits = .staticText
 
         // Counter label accessibility
