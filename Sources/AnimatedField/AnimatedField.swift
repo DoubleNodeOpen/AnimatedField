@@ -353,10 +353,11 @@ open class AnimatedField: UIView {
                                    ])
                 attributedPlaceholder = placeholderText
             }
+            setupTitle()
             layoutIfNeeded()
         }
     }
-    
+
     /// The text content of the field.
     ///
     /// ## Important Behavior Notes:
