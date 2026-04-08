@@ -388,6 +388,8 @@ open class AnimatedField: UIView {
         }
         set {
             if !textField.isHidden {
+                // Skip if value hasn't changed — prevents cursor reset during active editing
+                guard textField.text != newValue else { return }
                 let range = NSRange(location: 0, length: newValue?.count ?? 0)
                 let should = textField(textField,
                                        shouldChangeCharactersIn: range,
@@ -399,6 +401,8 @@ open class AnimatedField: UIView {
                 textField.text = nil
             }
             if !textView.isHidden {
+                // Skip if value hasn't changed — prevents cursor reset during active editing
+                guard textView.text != newValue else { return }
                 let range = NSRange(location: 0, length: newValue?.count ?? 0)
                 let should = textView(textView,
                                       shouldChangeTextIn: range,
