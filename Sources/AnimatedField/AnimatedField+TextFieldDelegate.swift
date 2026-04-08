@@ -117,8 +117,8 @@ extension AnimatedField: UITextFieldDelegate {
 
                 // Step 1: count content characters before range.location in the pattern
                 var rawLocation = 0
-                for i in 0..<min(range.location, formatPattern.count) {
-                    let idx = formatPattern.index(formatPattern.startIndex, offsetBy: i)
+                for pos in 0..<min(range.location, formatPattern.count) {
+                    let idx = formatPattern.index(formatPattern.startIndex, offsetBy: pos)
                     if placeholders.contains(formatPattern[idx]) {
                         rawLocation += 1
                     }
@@ -128,12 +128,12 @@ extension AnimatedField: UITextFieldDelegate {
                 // Step 2: walk the pattern to find the formatted position of rawCursor
                 var contentCount = 0
                 offset = formatPattern.count
-                for i in 0..<formatPattern.count {
+                for pos in 0..<formatPattern.count {
                     if contentCount >= rawCursor {
-                        offset = i
+                        offset = pos
                         break
                     }
-                    let idx = formatPattern.index(formatPattern.startIndex, offsetBy: i)
+                    let idx = formatPattern.index(formatPattern.startIndex, offsetBy: pos)
                     if placeholders.contains(formatPattern[idx]) {
                         contentCount += 1
                     }
