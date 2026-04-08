@@ -102,13 +102,48 @@ extension AnimatedField: UITextFieldDelegate {
         }
 
         // Calculate cursor position AFTER formatting to account for auto-inserted characters
-        var offset = range.location + range.length + string.count
+        var offset: Int
         if string.count == 0 {
-            offset -= range.length
+            // Deletion: cursor stays at deletion point
+            offset = range.location
         } else {
-            // If formatText() added characters, adjust cursor to end of text
-            // This ensures cursor is placed after the newly typed character and any auto-inserted separators
-            offset = textField.text?.count ?? offset
+            let formatPattern = textField.formatPattern
+            if !formatPattern.isEmpty {
+                // Map cursor from formatted-text coordinates to raw-content coordinates,
+                // advance by typed characters, then map back to formatted coordinates.
+                // Pattern placeholders (#, @, a, A, *) are content slots; everything else
+                // is a literal separator inserted by formatText().
+                let placeholders: Set<Character> = ["#", "@", "a", "A", "*"]
+
+                // Step 1: count content characters before range.location in the pattern
+                var rawLocation = 0
+                for i in 0..<min(range.location, formatPattern.count) {
+                    let idx = formatPattern.index(formatPattern.startIndex, offsetBy: i)
+                    if placeholders.contains(formatPattern[idx]) {
+                        rawLocation += 1
+                    }
+                }
+                let rawCursor = rawLocation + string.count
+
+                // Step 2: walk the pattern to find the formatted position of rawCursor
+                var contentCount = 0
+                offset = formatPattern.count
+                for i in 0..<formatPattern.count {
+                    if contentCount >= rawCursor {
+                        offset = i
+                        break
+                    }
+                    let idx = formatPattern.index(formatPattern.startIndex, offsetBy: i)
+                    if placeholders.contains(formatPattern[idx]) {
+                        contentCount += 1
+                    }
+                }
+            } else {
+                // No format pattern: simple cursor positioning
+                offset = range.location + string.count
+            }
+            // Clamp to actual text length
+            offset = min(offset, textField.text?.count ?? offset)
         }
         if let newPosition = textField.position(from: textField.beginningOfDocument, offset: offset) {
             textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)

@@ -383,13 +383,17 @@ open class AnimatedField: UIView {
     ///   if delegates perform actions on text changes.
     /// - If validation fails, text may not be set as expected (check return value of delegates).
     /// - For multiline fields, updates textView state and placeholder management.
+    /// - **Ignored during active editing** (`isFirstResponder`). Internal typing sets the
+    ///   underlying UITextField/UITextView `.text` directly; this setter is only for external callers.
     open var text: String? {
         get {
             return textField.isHidden ? (textView.text == placeholder && textView.textColor == format.placeholderColor ? "" : textView.text) : textField.text
         }
         set {
             if !textField.isHidden {
-                // Skip if value hasn't changed — prevents cursor reset during active editing
+                // Don't overwrite text during active editing — preserves cursor position.
+                // Internal typing goes through UITextField.text directly, not this setter.
+                guard !textField.isFirstResponder else { return }
                 guard textField.text != newValue else { return }
                 let range = NSRange(location: 0, length: newValue?.count ?? 0)
                 let should = textField(textField,
@@ -402,7 +406,9 @@ open class AnimatedField: UIView {
                 textField.text = nil
             }
             if !textView.isHidden {
-                // Skip if value hasn't changed — prevents cursor reset during active editing
+                // Don't overwrite text during active editing — preserves cursor position.
+                // Internal typing goes through UITextView.text directly, not this setter.
+                guard !textView.isFirstResponder else { return }
                 guard textView.text != newValue else { return }
                 let range = NSRange(location: 0, length: newValue?.count ?? 0)
                 let should = textView(textView,
