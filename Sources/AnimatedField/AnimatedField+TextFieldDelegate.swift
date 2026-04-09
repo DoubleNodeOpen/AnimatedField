@@ -115,9 +115,14 @@ extension AnimatedField: UITextFieldDelegate {
                 // is a literal separator inserted by formatText().
                 let placeholders: Set<Character> = ["#", "@", "a", "A", "*"]
 
-                // Step 1: count content characters before range.location in the pattern
+                // Displayed text = prefix + formatted. range.location is in displayed
+                // coordinates, but the pattern only covers the formatted portion.
+                let prefixLen = textField.prefix.count
+                let patternLocation = max(range.location - prefixLen, 0)
+
+                // Step 1: count content characters before patternLocation in the pattern
                 var rawLocation = 0
-                for pos in 0..<min(range.location, formatPattern.count) {
+                for pos in 0..<min(patternLocation, formatPattern.count) {
                     let idx = formatPattern.index(formatPattern.startIndex, offsetBy: pos)
                     if placeholders.contains(formatPattern[idx]) {
                         rawLocation += 1
@@ -127,10 +132,10 @@ extension AnimatedField: UITextFieldDelegate {
 
                 // Step 2: walk the pattern to find the formatted position of rawCursor
                 var contentCount = 0
-                offset = formatPattern.count
+                var patternOffset = formatPattern.count
                 for pos in 0..<formatPattern.count {
                     if contentCount >= rawCursor {
-                        offset = pos
+                        patternOffset = pos
                         break
                     }
                     let idx = formatPattern.index(formatPattern.startIndex, offsetBy: pos)
@@ -138,6 +143,8 @@ extension AnimatedField: UITextFieldDelegate {
                         contentCount += 1
                     }
                 }
+                // Add prefix back to get displayed-text offset
+                offset = patternOffset + prefixLen
             } else {
                 // No format pattern: simple cursor positioning
                 offset = range.location + string.count
