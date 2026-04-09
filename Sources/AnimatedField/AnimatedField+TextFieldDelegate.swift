@@ -101,56 +101,57 @@ extension AnimatedField: UITextFieldDelegate {
             maskTextField.formatText()
         }
 
-        // Calculate cursor position AFTER formatting to account for auto-inserted characters
+        // Calculate cursor position AFTER formatting to account for auto-inserted characters.
+        // The delegate parameter `textField` is typed as UITextField; cast to SwiftMaskTextfield
+        // to access formatPattern and prefix (subclass properties).
         var offset: Int
         if string.count == 0 {
             // Deletion: cursor stays at deletion point
             offset = range.location
-        } else {
-            let formatPattern = textField.formatPattern
-            if !formatPattern.isEmpty {
-                // Map cursor from formatted-text coordinates to raw-content coordinates,
-                // advance by typed characters, then map back to formatted coordinates.
-                // Pattern placeholders (#, @, a, A, *) are content slots; everything else
-                // is a literal separator inserted by formatText().
-                let placeholders: Set<Character> = ["#", "@", "a", "A", "*"]
+        } else if let maskField = textField as? SwiftMaskTextfield,
+                  !maskField.formatPattern.isEmpty {
+            // Map cursor from formatted-text coordinates to raw-content coordinates,
+            // advance by typed characters, then map back to formatted coordinates.
+            // Pattern placeholders (#, @, a, A, *) are content slots; everything else
+            // is a literal separator inserted by formatText().
+            let formatPattern = maskField.formatPattern
+            let placeholders: Set<Character> = ["#", "@", "a", "A", "*"]
 
-                // Displayed text = prefix + formatted. range.location is in displayed
-                // coordinates, but the pattern only covers the formatted portion.
-                let prefixLen = textField.prefix.count
-                let patternLocation = max(range.location - prefixLen, 0)
+            // Displayed text = prefix + formatted. range.location is in displayed
+            // coordinates, but the pattern only covers the formatted portion.
+            let prefixLen = maskField.prefix.count
+            let patternLocation = max(range.location - prefixLen, 0)
 
-                // Step 1: count content characters before patternLocation in the pattern
-                var rawLocation = 0
-                for pos in 0..<min(patternLocation, formatPattern.count) {
-                    let idx = formatPattern.index(formatPattern.startIndex, offsetBy: pos)
-                    if placeholders.contains(formatPattern[idx]) {
-                        rawLocation += 1
-                    }
+            // Step 1: count content characters before patternLocation in the pattern
+            var rawLocation = 0
+            for pos in 0..<min(patternLocation, formatPattern.count) {
+                let idx = formatPattern.index(formatPattern.startIndex, offsetBy: pos)
+                if placeholders.contains(formatPattern[idx]) {
+                    rawLocation += 1
                 }
-                let rawCursor = rawLocation + string.count
-
-                // Step 2: walk the pattern to find the formatted position of rawCursor
-                var contentCount = 0
-                var patternOffset = formatPattern.count
-                for pos in 0..<formatPattern.count {
-                    if contentCount >= rawCursor {
-                        patternOffset = pos
-                        break
-                    }
-                    let idx = formatPattern.index(formatPattern.startIndex, offsetBy: pos)
-                    if placeholders.contains(formatPattern[idx]) {
-                        contentCount += 1
-                    }
-                }
-                // Add prefix back to get displayed-text offset
-                offset = patternOffset + prefixLen
-            } else {
-                // No format pattern: simple cursor positioning
-                offset = range.location + string.count
             }
+            let rawCursor = rawLocation + string.count
+
+            // Step 2: walk the pattern to find the formatted position of rawCursor
+            var contentCount = 0
+            var patternOffset = formatPattern.count
+            for pos in 0..<formatPattern.count {
+                if contentCount >= rawCursor {
+                    patternOffset = pos
+                    break
+                }
+                let idx = formatPattern.index(formatPattern.startIndex, offsetBy: pos)
+                if placeholders.contains(formatPattern[idx]) {
+                    contentCount += 1
+                }
+            }
+            // Add prefix back to get displayed-text offset
+            offset = patternOffset + prefixLen
             // Clamp to actual text length
             offset = min(offset, textField.text?.count ?? offset)
+        } else {
+            // No format pattern or not a SwiftMaskTextfield: simple cursor positioning
+            offset = min(range.location + string.count, textField.text?.count ?? range.location + string.count)
         }
         if let newPosition = textField.position(from: textField.beginningOfDocument, offset: offset) {
             textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
